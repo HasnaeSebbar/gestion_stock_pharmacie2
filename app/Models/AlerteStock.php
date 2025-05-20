@@ -19,6 +19,12 @@ class AlerteStock extends Model
     // Relation avec le produit
     public function produit()
     {
-        return $this->belongsTo(Produit::class);
+        return $this->belongsTo(Produit::class, 'id_produit', 'id');
+    }
+    protected $primaryKey = 'id_alert';
+
+    public function depot()
+    {
+        return $this->belongsTo(Depot::class, 'id_depot');
     }
 }

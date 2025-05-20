@@ -9,25 +9,25 @@ class UpdateCommandeFournisseursTable extends Migration
     public function up()
     {
         Schema::table('commande_fournisseurs', function (Blueprint $table) {
-            // Suppression des anciennes colonnes si besoin
-            $table->dropForeign(['utilisateur_id']);
-            $table->dropColumn('utilisateur_id');
+            // // Suppression des anciennes colonnes si besoin
+            // $table->dropForeign(['utilisateur_id']);
+            // $table->dropColumn('utilisateur_id');
 
-            $table->dropForeign(['depot_id']);
-            $table->dropColumn('depot_id');
+            // $table->dropForeign(['depot_id']);
+            // $table->dropColumn('depot_id');
 
-            $table->dropColumn('type');
-            $table->dropColumn('remarque');
+            // $table->dropColumn('type');
+            // $table->dropColumn('remarque');
 
-            // Ajout des nouvelles colonnes
-            $table->unsignedBigInteger('id_depot');
-            $table->unsignedBigInteger('id_fournisseur');
-            $table->date('date_commande');
-            $table->string('statut')->default('en cours');
+            // // Ajout des nouvelles colonnes
+            // $table->unsignedBigInteger('id_depot');
+            // $table->unsignedBigInteger('id_fournisseur');
+            // $table->date('date_commande');
+            // $table->string('statut')->default('en cours');
 
-            // Déclaration des clés étrangères
-            $table->foreign('id_depot')->references('id')->on('depots')->onDelete('cascade');
-            $table->foreign('id_fournisseur')->references('id')->on('fournisseurs')->onDelete('cascade');
+            // // Déclaration des clés étrangères
+            // $table->foreign('id_depot')->references('id')->on('depots')->onDelete('cascade');
+            // $table->foreign('id_fournisseur')->references('id')->on('fournisseurs')->onDelete('cascade');
         });
     }
 

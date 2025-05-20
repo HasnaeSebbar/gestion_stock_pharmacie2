@@ -11,6 +11,30 @@
             margin: 20px;
         }
 
+        .entete {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .entete .gauche,
+        .entete .droite {
+            font-size: 14px;
+            line-height: 1.6;
+            width: 30%;
+        }
+
+        .entete .droite {
+            text-align: right;
+            direction: rtl;
+        }
+
+        .entete .logo {
+            text-align: center;
+            width: 30%;
+        }
+
         .header {
             text-align: center;
             margin-bottom: 30px;
@@ -71,6 +95,28 @@
 </head>
 <body>
 
+    <!-- En-tête bilingue avec logo centré -->
+    <div class="entete">
+        <div class="gauche">
+            <strong>ROYAUME DU MAROC</strong><br>
+            Ministère de la Santé<br>
+            Délégation Provinciale de Settat<br>
+            Hôpital Hassan II de Settat
+        </div>
+        <div class="logo">
+            
+            @php $isPdf = $isPdf ?? false; @endphp
+
+             <img src="{{ $isPdf ? public_path('images/logo_ministere_sante.jpg') : asset('images/logo_ministere_sante.jpg') }}" alt="Logo Maroc" style="height: 80px;">
+        </div>
+        <div class="droite">
+            <strong>المملكة المغربية</strong><br>
+            وزارة الصحة<br>
+            المندوبية الإقليمية بسطات<br>
+            مستشفى الحسن الثاني بسطات
+        </div>
+    </div>
+
     <div class="header">
         <h1>Hôpital Hassan II - Settat</h1>
         <p><strong>Bon de Commande Fournisseur</strong></p>
@@ -113,7 +159,6 @@
             <p>Représentant du Fournisseur</p>
         </div>
     </div>
-
 
 </body>
 </html>

@@ -46,6 +46,7 @@
         <a href="{{ route('commandes_fournisseur.imprimer', $commande->id) }}" target="_blank" class="btn btn-primary">
             Imprimer
         </a>
+        <a href="{{ route('commande_fournisseurs.edit', $commande->id) }}" class="btn btn-warning btn-sm">Modifier</a>
          <form action="{{ route('commandes_fournisseur.destroy', $commande->id) }}" method="POST" style="display:inline;">
             @csrf
             @method('DELETE')

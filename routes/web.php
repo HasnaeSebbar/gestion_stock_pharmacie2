@@ -25,6 +25,16 @@ use App\Http\Controllers\PediatrieController;
 use App\Http\Controllers\UrgencesController;
 use App\Http\Controllers\ReanimationController;
 use App\Http\Controllers\FournisseurController;
+use App\Http\Controllers\CmdDepotController;
+use App\Http\Controllers\SortieParCommandeController;
+use App\Http\Controllers\PatientController;
+use App\Http\Controllers\SortieVersPatientController;
+use App\Http\Controllers\DetailSortiePatientController;
+use App\Http\Controllers\SortieInterneController;
+use App\Http\Controllers\DetailSortieInterneController;
+use App\Http\Controllers\SortieDepotController;
+use App\Http\Controllers\DetailSortieDepotController;
+use App\Http\Controllers\SortieStockController;
 
 
 
@@ -120,7 +130,55 @@ Route::post('/chef/commande-fournisseurs', [CommandeFournisseurController::class
 Route::get('/chef/commande-fournisseurs/{id}/bon-commande', [CommandeFournisseurController::class, 'bonCommande'])->name('commande_fournisseurs.bon_commande');
 Route::resource('commande_fournisseurs', CommandeFournisseurController::class);
 
+Route::get('/commandes-fournisseur/{id}/edit', [CommandeFournisseurController::class, 'edit'])->name('commandes_fournisseur.edit');
+Route::get('/chef/fournisseurs/{id}/edit', [FournisseurController::class, 'edit'])->name('fournisseurs.edit');
+Route::get('/commandes-fournisseur/pdf/{id}', [CommandeFournisseurController::class, 'showPDF'])->name('commandes_fournisseur.show_pdf');
 
+Route::get('/commandes_fournisseur/{id}/imprimer', [CommandeFournisseurController::class, 'imprimer'])->name('commandes_fournisseur.imprimer');
+Route::resource('depots', DepotController::class);
+Route::resource('produits', ProduitController::class);
+Route::resource('cmd_depots', CmdDepotController::class);
+// Patient
+Route::resource('patients', PatientController::class);
+
+// Sortie vers patient
+Route::resource('sortie_vers_patients', SortieVersPatientController::class);
+Route::get('/sortie_vers_patients/create', [SortieVersPatientController::class, 'create'])->name('sortie_vers_patients.create');
+Route::get('/sortie_vers_patients/pdf', [SortieVersPatientController::class, 'genererPDF'])->name('sortie_vers_patients.pdf');
+
+
+
+// Sortie interne
+Route::resource('sortie_internes', SortieInterneController::class);
+Route::resource('detail_sortie_internes', DetailSortieInterneController::class);
+
+// Sortie entre dépôts
+Route::resource('sortie_depots', SortieDepotController::class);
+Route::resource('detail_sortie_depots', DetailSortieDepotController::class);
+
+// Sortie par commande
+Route::resource('sortie_par_commandes', SortieParCommandeController::class);
+
+Route::resource('stocks', App\Http\Controllers\StockController::class);
+Route::resource('stock_produits', App\Http\Controllers\StockProduitController::class);
+Route::resource('sortie_interne', App\Http\Controllers\SortieInterneController::class);
+Route::resource('sortie_vers_patient', App\Http\Controllers\SortieVersPatientController::class);
+Route::resource('sortie_vers_patient', SortieVersPatientController::class);
+Route::resource('sortie_interne', SortieInterneController::class);
+Route::resource('sortie_depot', App\Http\Controllers\SortieDepotController::class); 
+Route::resource('sortie_vers_patient', SortieVersPatientController::class);
+Route::get('/sortie-vers-patient/create', [SortieVersPatientController::class, 'create'])->name('sortie_vers_patient.create');
+Route::get('/sortie_vers_patient/pdf', [SortieVersPatientController::class, 'genererPDF'])->name('sortie_vers_patient.pdf');
+
+
+
+
+
+// // Route pour Sortie de Stock
+// Route::resource('sortie-stock', App\Http\Controllers\SortieStockController::class)->names('sortie_stock');
+
+// // Route pour Visualisation de Stock
+// Route::resource('visualisation-stock', App\Http\Controllers\VisualisationStockController::class)->names('visualisation_stock');
 
 
 

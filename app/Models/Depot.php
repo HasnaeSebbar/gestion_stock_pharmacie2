@@ -26,5 +26,28 @@ public function commandes() {
 public function entrees() {
     return $this->hasMany(EntreeFournisseur::class);
 }
+public function sortiesInternes()
+{
+    return $this->hasMany(SortieInterne::class, 'id_depot');
+}
 
+public function sortiesDepotSource()
+{
+    return $this->hasMany(SortieDepot::class, 'id_depot_source');
+}
+
+public function sortiesDepotDestination()
+{
+    return $this->hasMany(SortieDepot::class, 'id_depot_destin');
+}
+
+public function sortiesParCommande()
+{
+    return $this->hasMany(SortieParCommande::class, 'id_depot');
+}
+public function cmdDepotEntrees()
+{
+    return $this->hasMany(CmdDepotEntree::class, 'id_depot');
+
+}
 }

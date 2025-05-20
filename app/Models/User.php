@@ -56,6 +56,8 @@ public function hasRole($role)
     return $this->role === $role;
 }
 
+
+
 // Dans le modèle User
 
 }

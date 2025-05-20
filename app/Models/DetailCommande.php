@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class DetailCommande extends Model
 
 {
-    protected $fillable = ['id_commande', 'id_produit', 'quantité_cmd'];
+    protected $fillable = ['commande_id', 'produit_id', 'quantite'];
 
     public function commande()
     {
