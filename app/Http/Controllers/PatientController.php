@@ -100,4 +100,22 @@ class PatientController extends Controller
           Patient::destroy($id);
         return redirect()->route('patients.index')->with('success', 'Patient supprimé.');
     }
+
+    /**
+     * Store a newly created resource via AJAX.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function ajaxStore(Request $request)
+    {
+        $validated = $request->validate([
+            'nom' => 'required|string',
+            'prenom' => 'required|string',
+            'date_nais' => 'required|date',
+            'numero_dossier' => 'required|string',
+        ]);
+        $patient = Patient::create($validated);
+        return response()->json(['id_patient' => $patient->id_patient]);
+    }
 }

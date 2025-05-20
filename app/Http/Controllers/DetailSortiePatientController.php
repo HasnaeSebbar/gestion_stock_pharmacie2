@@ -37,7 +37,7 @@ class DetailSortiePatientController extends Controller
     public function store(Request $request)
     {
        $validated = $request->validate([
-            'id_sortieverspatient' => 'required|exists:sortie_vers_patients,id',
+            'id_sortie_vers_patient' => 'required|exists:sortie_vers_patients,id',
             'id_produit' => 'required|exists:produits,id',
             'quantite' => 'required|numeric|min:1',
         ]);
@@ -80,7 +80,7 @@ class DetailSortiePatientController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'id_sortieverspatient' => 'required|exists:sortie_vers_patients,id',
+            'id_sortie_vers_patient' => 'required|exists:sortie_vers_patients,id',
             'id_produit' => 'required|exists:produits,id',
             'quantite' => 'required|numeric|min:1',
         ]);

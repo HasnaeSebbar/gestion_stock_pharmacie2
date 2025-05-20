@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class SortieVersPatient extends Model
 {
-    protected $table = 'sortie_vers_patient';
+    protected $table = 'sortie_vers_patients'; // avec un "s" à la fin !
     protected $primaryKey = 'id_sortie_vers_patient';
-    public $timestamps = false;
+    public $timestamps = true; // car ta migration a les timestamps
 
     protected $fillable = ['id_patient', 'date_sortie', 'id_depot'];
     use HasFactory;

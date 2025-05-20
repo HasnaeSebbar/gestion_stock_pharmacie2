@@ -47,40 +47,24 @@ class SortieVersPatientController extends Controller
 
 public function store(Request $request)
 {
-    // Pour débogage si nécessaire
-    Log::info($request->all());
-
-    // Validation (tu peux l'adapter)
     $request->validate([
-        'nom' => 'required|string',
-        'prenom' => 'required|string',
-        'date_nais' => 'required|date',
-        'numero_dossier' => 'required|string',
+        'id_patient' => 'required|exists:patients,id_patient',
         'id_depot' => 'required|exists:depots,id_depot',
-        'produits' => 'required|array',
-        'produits.*.id_produit' => 'required|exists:produits,id', // <-- fix here
-        'produits.*.quantite' => 'required|numeric|min:1',
+        'produits' => 'required|array|min:1',
+        'produits.*.id_produit' => 'required|exists:produits,id',
+        'produits.*.quantite' => 'required|integer|min:1',
     ]);
 
     DB::beginTransaction();
-
     try {
-        // 1. Créer le patient
-        $patient = Patient::create([
-            'nom' => $request->nom,
-            'prenom' => $request->prenom,
-            'date_nais' => $request->date_nais, // Ajouté pour corriger l'erreur
-            'numero_dossier' => $request->numero_dossier,
-        ]);
-
-        // 2. Créer la sortie vers patient
+        // 1. Créer la sortie vers patient
         $sortie = SortieVersPatient::create([
-            'id_patient' => $patient->id_patient,
+            'id_patient' => $request->id_patient,
             'date_sortie' => now(),
             'id_depot' => $request->id_depot,
         ]);
 
-        // 3. Enregistrer les détails de sortie
+        // 2. Créer les détails de sortie
         foreach ($request->produits as $produit) {
             DetailSortiePatient::create([
                 'id_sortie_vers_patient' => $sortie->id_sortie_vers_patient,
@@ -90,12 +74,10 @@ public function store(Request $request)
         }
 
         DB::commit();
-
-        return redirect()->route('sortie_vers_patient.create')->with('success', 'Sortie enregistrée avec succès.');
+        return redirect()->route('sortie_vers_patients.create')->with('success', 'Sortie enregistrée avec succès.');
     } catch (\Exception $e) {
         DB::rollBack();
-        Log::error("Erreur lors de l'enregistrement : " . $e->getMessage());
-        return back()->with('error', 'Une erreur est survenue. Veuillez réessayer.');
+        return back()->with('error', 'Erreur : ' . $e->getMessage());
     }
 }
 
