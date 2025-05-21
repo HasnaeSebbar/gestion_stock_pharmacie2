@@ -28,6 +28,18 @@
     {{-- ✅ Barre de navigation --}}
     @include('layouts.navigation') {{-- à condition que ce fichier existe --}}
 
+    <nav>
+        @auth
+            @if(Auth::user()->role === 'chef pharmacie')
+                @include('partials.header-chef')
+            @elseif(Auth::user()->role === 'pharmacien')
+                @include('partials.header-pharmacien')
+            @elseif(Auth::user()->role === 'majeur')
+                @include('partials.header-majeur')
+            @endif
+        @endauth
+    </nav>
+
     <main class="container py-4">
         @yield('content')
     </main>

@@ -35,6 +35,7 @@ use App\Http\Controllers\DetailSortieInterneController;
 use App\Http\Controllers\SortieDepotController;
 use App\Http\Controllers\DetailSortieDepotController;
 use App\Http\Controllers\SortieStockController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 
 
@@ -66,7 +67,7 @@ Route::middleware(['auth'])->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::middleware(['auth'])->group(function () {
-    Route::get('/chef/dashboard', [ChefPharmacieController::class, 'index'])->name('chef.dashboard');
+    Route::get('/chef/dashboard', [App\Http\Controllers\ChefPharmacieController::class, 'dashboard'])->name('chef.dashboard');
     Route::get('/pharmacien/dashboard', [PharmacienController::class, 'index'])->name('pharmacien.dashboard');
     Route::get('/pediatrie/dashboard', [PediatrieController::class, 'index'])->name('pediatrie.dashboard');
     Route::get('/urgences/dashboard', [UrgencesController::class, 'index'])->name('urgences.dashboard');
@@ -279,10 +280,7 @@ Route::resource('sortie_interne', App\Http\Controllers\SortieInterneController::
     | Déconnexion
     |--------------------------------------------------------------------------
     */
-    Route::post('/logout', function () {
-        Auth::logout();
-        return redirect('/');
-    })->name('logout');
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 
 
@@ -313,6 +311,7 @@ Route::post('/patients', [PatientController::class, 'store'])->name('patients.st
 
 Route::get('/chef/sortie/patient', [SortieVersPatientController::class, 'create'])->name('sortie_vers_patients.create');
 Route::post('/chef/sortie/patient', [SortieVersPatientController::class, 'store'])->name('sortie_vers_patients.store');
+Route::get('/livraison/derniere', [App\Http\Controllers\LivraisonController::class, 'derniere'])->name('livraison.derniere');
 
 
 

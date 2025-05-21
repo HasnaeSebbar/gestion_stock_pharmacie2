@@ -2,24 +2,23 @@
 
 @section('content')
 <div class="container py-4">
-    <!-- Titre centré -->
-    <h2 class="text-center mb-4">Gestion fournisseur</h2>
+    <h2 class="text-center mb-4 fw-bold text-primary">Gestion des fournisseurs</h2>
 
-    <!-- Bouton Ajouter/Créer en haut à droite -->
     <div class="mb-4 d-flex justify-content-end">
-        <a href="{{ route('fournisseurs.create') }}" class="btn btn-success">Ajouter Fournisseur</a>
+        <a href="{{ route('fournisseurs.create') }}" class="btn btn-success">
+            <i class="bi bi-plus-circle me-1"></i> Ajouter Fournisseur
+        </a>
     </div>
 
-    <!-- Tableau des fournisseurs -->
     <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
+        <table class="table table-striped align-middle shadow-sm">
+            <thead class="table-primary">
                 <tr>
                     <th>Nom Fournisseur</th>
                     <th>Type</th>
-                    <th>Adresse</th>x
+                    <th>Adresse</th>
                     <th>Téléphone</th>
-                    <th>Actions</th>
+                    <th class="text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,15 +28,16 @@
                         <td>{{ $fournisseur->type }}</td>
                         <td>{{ $fournisseur->adresse }}</td>
                         <td>{{ $fournisseur->telephone }}</td>
-                        <td>
-                            <!-- Bouton Modifier -->
-                            <a href="{{ route('fournisseurs.edit', $fournisseur->id) }}" class="btn btn-warning btn-sm">Modifier</a>
-
-                            <!-- Formulaire pour supprimer -->
+                        <td class="text-center">
+                            <a href="{{ route('fournisseurs.edit', $fournisseur->id) }}" class="btn btn-warning btn-sm me-1">
+                                <i class="bi bi-pencil-square"></i> Modifier
+                            </a>
                             <form action="{{ route('fournisseurs.destroy', $fournisseur->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Confirmer la suppression ?')">
+                                    <i class="bi bi-trash"></i> Supprimer
+                                </button>
                             </form>
                         </td>
                     </tr>
