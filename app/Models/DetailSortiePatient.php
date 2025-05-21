@@ -17,30 +17,18 @@ class DetailSortiePatient extends Model
         'id_produit',
         'quantite',
     ];
-   public function sortieVersPatient()
-{
-    return $this->belongsTo(SortieVersPatient::class, 'id_sortie_vers_patient');
+
+    public function sortieVersPatient()
+    {
+        return $this->belongsTo(SortieVersPatient::class, 'id_sortie_vers_patient');
+    }
+
+    public function produit()
+    {
+        return $this->belongsTo(Produit::class, 'id_produit', 'id');
+    }
+    // public function depot()
+    // {
+    //     return $this->belongsTo(Depot::class, 'id_depot');
+    // }
 }
-
-public function produit()
-{
-    return $this->belongsTo(Produit::class, 'id_produit', 'id');
-}
-// public function depot()
-// {
-//     return $this->belongsTo(Depot::class, 'id_depot');
-// }
-}
-
-// Example for storing a patient
-$patient = Patient::create($request->all());
-
-// Example for storing a sortie vers patient
-$sortie = SortieVersPatient::create([
-    // ...fields...
-]);
-
-// Example for storing a detail sortie patient
-$detail = DetailSortiePatient::create([
-    // ...fields...
-]);

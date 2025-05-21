@@ -34,7 +34,7 @@
                 </a>
                 <ul class="dropdown-menu text-center" aria-labelledby="dropdownSortie">
                     <li>
-                        <a class="dropdown-item" href="{{ route('sortie_vers_patient.create') }}">Sortie vers Patient</a>
+                        <a class="dropdown-item" href="{{ route('sortie_vers_patients.create') }}">Sortie vers Patient</a>
                     </li>
                     <li>
                         <a class="dropdown-item" href="{{ route('sortie_depots.index') }}">Sortie vers Service</a>

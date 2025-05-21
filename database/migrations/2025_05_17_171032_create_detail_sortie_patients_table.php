@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('detail_sortie_patients', function (Blueprint $table) {
     $table->id('id_detail_sortie_patient');
     $table->foreignId('id_sortie_vers_patient')->constrained('sortie_vers_patients', 'id_sortie_vers_patient');
-    $table->foreignId('id_produit')->constrained('produits', 'id');
+    $table->foreignId('id_produit')->constrained('produits', 'id_produit', 'id');
     $table->integer('quantite');
     $table->timestamps();
 });

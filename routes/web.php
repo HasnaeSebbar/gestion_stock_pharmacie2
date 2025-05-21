@@ -162,13 +162,7 @@ Route::resource('sortie_par_commandes', SortieParCommandeController::class);
 Route::resource('stocks', App\Http\Controllers\StockController::class);
 Route::resource('stock_produits', App\Http\Controllers\StockProduitController::class);
 Route::resource('sortie_interne', App\Http\Controllers\SortieInterneController::class);
-Route::resource('sortie_vers_patient', App\Http\Controllers\SortieVersPatientController::class);
-Route::resource('sortie_vers_patient', SortieVersPatientController::class);
-Route::resource('sortie_interne', SortieInterneController::class);
-Route::resource('sortie_depot', App\Http\Controllers\SortieDepotController::class); 
-Route::resource('sortie_vers_patient', SortieVersPatientController::class);
-Route::get('/sortie-vers-patient/create', [SortieVersPatientController::class, 'create'])->name('sortie_vers_patient.create');
-Route::get('/sortie_vers_patient/pdf', [SortieVersPatientController::class, 'genererPDF'])->name('sortie_vers_patient.pdf');
+
 
 
 
@@ -313,6 +307,12 @@ Route::get('/commandes-fournisseur/pdf/{id}', [CommandeFournisseurController::cl
 
 Route::get('/commandes_fournisseur/{id}/imprimer', [CommandeFournisseurController::class, 'imprimer'])->name('commandes_fournisseur.imprimer');
 Route::post('/patients/ajax-store', [PatientController::class, 'ajaxStore'])->name('patients.ajaxStore');
+Route::post('/sortie_vers_patient', [SortieVersPatientController::class, 'store'])->name('sortie_vers_patients.store');
+Route::get('/patients/create', [PatientController::class, 'create'])->name('patients.create');
+Route::post('/patients', [PatientController::class, 'store'])->name('patients.store');
+
+Route::get('/chef/sortie/patient', [SortieVersPatientController::class, 'create'])->name('sortie_vers_patients.create');
+Route::post('/chef/sortie/patient', [SortieVersPatientController::class, 'store'])->name('sortie_vers_patients.store');
 
 
 
