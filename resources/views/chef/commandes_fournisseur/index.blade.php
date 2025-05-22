@@ -57,6 +57,9 @@
                                         <i class="bi bi-trash"></i> Supprimer
                                     </button>
                                 </form>
+                                <a href="{{ route('livraison.formulaire', ['id' => $commande->id]) }}" class="btn btn-sm btn-success">
+    Enregistrer une livraison
+</a>
                             </td>
                         </tr>
                     @endforeach

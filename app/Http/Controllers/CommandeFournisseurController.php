@@ -7,8 +7,10 @@ use App\Models\Depot;
 use App\Models\Fournisseur;
 use App\Models\Commande;
 use App\Models\DetailCommande;
+use App\Models\DetailEntree;
 use Illuminate\Http\Request;
 use App\Models\Produit;
+use App\Models\DetailLivraison;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 
@@ -59,8 +61,6 @@ class CommandeFournisseurController extends Controller
         $fournisseurs = Fournisseur::all();
         return view('chef.commandes_fournisseur.create', compact('fournisseurs'));
     }
-
-
 
     public function produits($id)
     {
@@ -117,10 +117,6 @@ class CommandeFournisseurController extends Controller
         return redirect()->route('commandes_fournisseur.index')->with('success', 'Commande enregistrée avec succès');
     }
 
-
-
-
-
     public function bonCommande($id)
     {
         $commande = CommandeFournisseur::with(['fournisseur', 'produits'])->findOrFail($id);
@@ -175,11 +171,6 @@ public function update(Request $request, $id)
                      ->with('success', 'Commande modifiée avec succès.');
 }
 
-
-    
-            
-
-
     public function destroy($id)
     {
         CommandeFournisseur::destroy($id);
@@ -192,19 +183,12 @@ public function update(Request $request, $id)
         return view('chef.commandes_fournisseur.produits', compact('produits'));
     }
 
-
-    
-
-
     public function showPDF($id)
     {
         $commande = CommandeFournisseur::with(['fournisseur', 'details.produit'])->findOrFail($id);
         return view('chef.commandes_fournisseur.bon_commande', compact('commande'));
     }
     
-
-
- 
     // Pour bouton "Voir"
 public function voir($id)
 {
@@ -215,9 +199,6 @@ public function voir($id)
         'isPdf' => false, // ← On précise que ce n'est PAS une version PDF
     ]);
 }
-
-
-
 // Pour bouton "Imprimer"
 public function imprimer($id)
 {
@@ -227,9 +208,87 @@ public function imprimer($id)
         'commande' => $commande,
         'isPdf' => true, // ← Ici on indique que c'est pour le PDF
     ]);
-
     return $pdf->stream('bon_commande.pdf');
 }
 
+// enregistrerun commande fournisseur
+public function enregistrerLivraison()
+{
+    // Récupérer la dernière commande fournisseur (statut validé)
+    $commande = CommandeFournisseur::where('statut', 'validé')->latest()->first();
+
+    if (!$commande) {
+        return redirect()->back()->with('error', 'Aucune commande fournisseur validée trouvée.');
+    }
+
+    // Charger les détails des produits de cette commande
+    $details = $commande->detailsCommande()->with('produit')->get();
+
+    return view('chef.fournisseurs.enregistrer_livraison', compact('commande', 'details'));
+}
+
+
+// public function sauvegarderLivraison(Request $request)
+// {
+//     $produits = $request->input('produit_id');
+//     $quantitesRecues = $request->input('quantite_recue');
+//     $commandeId = $request->input('commande_id');
+
+    // Pour chaque produit, enregistrer la quantité reçue
+//     foreach ($produits as $index => $produitId) {
+//         $quantiteRecue = intval($quantitesRecues[$index]);
+
+//         // Exemple : créer une nouvelle entrée de livraison (ajuster selon ta base)
+//         DetailLivraison::create([
+//             'commande_fournisseur_id' => $commandeId,
+//             'produit_id' => $produitId,
+//             'quantite_recue' => $quantiteRecue,
+//         ]);
+
+//         // TODO : Mettre à jour le stock ici si besoin
+//     }
+
+//     return redirect()->route('route.de.la.page.d.accueil')->with('success', 'Livraison enregistrée avec succès.');
+// }
+// public function formulaireLivraison($id)
+// {
+//     $commande = CommandeFournisseur::with('details.produit')->findOrFail($id);
+
+//     return view('chef.commandes_fournisseur.enregistrer_livraison', [
+//         'commande' => $commande,
+//         'detailsCommande' => $commande->details
+//     ]);
+// }
+
+
+public function formulaireLivraison($id)
+{
+    $commande = CommandeFournisseur::with('fournisseur')->findOrFail($id);
+    $detailsCommande = DetailCommande::with('produit')
+        ->where('commande_id', $id)
+        ->get();
+
+    return view('chef.commandes_fournisseur.enregistrer_livraison', compact('commande', 'detailsCommande'));
+}
+
+public function livraisonDerniereCommande()
+{
+    // On récupère la dernière commande avec ses détails
+    $commande = CommandeFournisseur::with('detailsCommande.produit')->latest()->first();
+
+    if (!$commande) {
+        return redirect()->back()->with('error', 'Aucune commande trouvée.');
+    }
+
+    $detailsCommande = $commande->detailsCommande;
+
+    return view('chef.commandes_fournisseur.enregistrer_livraison', compact('commande', 'detailsCommande'));
+}
+
+public function showFormLivraison($id)
+{
+    $commande = CommandeFournisseur::with(['fournisseur', 'detailsCommande.produit'])->findOrFail($id);
+    return view('chef.commandes_fournisseur.enregistrer_livraison', compact('commande'));
+}
 
 }

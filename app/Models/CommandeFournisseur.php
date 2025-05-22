@@ -32,5 +32,16 @@ class CommandeFournisseur extends Model
         return $this->belongsToMany(Produit::class, 'detail_commandes', 'commande_id', 'produit_id')
                     ->withPivot('quantite');
     }
+    public function detailsCommande()
+{
+    // Supposons que le modèle des détails s'appelle DetailCommande
+    // et que la clé étrangère est commande_fournisseur_id
+    return $this->hasMany(DetailCommande::class, 'commande_id');
+}
+public function entrees()
+{
+    return $this->hasMany(EntreeFournisseur::class);
 }
 
+
+}

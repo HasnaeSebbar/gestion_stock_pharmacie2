@@ -15,6 +15,7 @@ class DetailEntreeController extends Controller {
     public function index() {
         $details = DetailEntree::with(['entree', 'produit'])->get();
         return view('detail_entrees.index', compact('details'));
+    
     }
 
     public function create() {
@@ -24,14 +25,18 @@ class DetailEntreeController extends Controller {
     }
 
     public function store(Request $request) {
+     dd($request->all());
         $request->validate([
-            'id_entree_fournisseur' => 'required|exists:entree_fournisseurs,id',
-            'id_produit' => 'required|exists:produits,id',
-            'quantite_recue' => 'required|integer|min:1',
-        ]);
+    'id_entree' => 'required|exists:entree_fournisseurs,id_entree',
+    'id_produit' => 'required|exists:produits,id',
+    'quantite_recue' => 'required|integer|min:1',
+]);
+
 
         DetailEntree::create($request->all());
         return redirect()->route('detail-entrees.index')->with('success', 'Détail d’entrée ajouté avec succès.');
+   
+
     }
 
     public function show($id) {
@@ -48,7 +53,7 @@ class DetailEntreeController extends Controller {
 
     public function update(Request $request, $id) {
         $request->validate([
-            'id_entree_fournisseur' => 'required|exists:entree_fournisseurs,id',
+            'id_entree' => 'required|exists:entree_fournisseurs,id',
             'id_produit' => 'required|exists:produits,id',
             'quantite_recue' => 'required|integer|min:1',
         ]);

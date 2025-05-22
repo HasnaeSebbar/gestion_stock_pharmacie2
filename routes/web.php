@@ -14,15 +14,12 @@ use App\Http\Controllers\DetailCommandeController;
 use App\Http\Controllers\EntreeController;
 use App\Http\Controllers\DetailEntreeController;
 use App\Http\Controllers\CommandeServiceController;
-use App\Http\Controllers\RetourProduitController;
 use App\Http\Controllers\OrdonnanceController;
 use App\Http\Controllers\AlerteStockController;
 use App\Http\Controllers\PharmacienController;
 use App\Http\Controllers\ChefPharmacieController; // Ensure this controller exists in the specified namespace or create it if missing
 use App\Http\Controllers\CmdFournisseurController; // Import CmdFournisseurController to resolve the undefined type error
 use App\Models\Depot;
-use App\Http\Controllers\PediatrieController;
-use App\Http\Controllers\UrgencesController;
 use App\Http\Controllers\ReanimationController;
 use App\Http\Controllers\FournisseurController;
 use App\Http\Controllers\CmdDepotController;
@@ -69,8 +66,6 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth'])->group(function () {
     Route::get('/chef/dashboard', [App\Http\Controllers\ChefPharmacieController::class, 'dashboard'])->name('chef.dashboard');
     Route::get('/pharmacien/dashboard', [PharmacienController::class, 'index'])->name('pharmacien.dashboard');
-    Route::get('/pediatrie/dashboard', [PediatrieController::class, 'index'])->name('pediatrie.dashboard');
-    Route::get('/urgences/dashboard', [UrgencesController::class, 'index'])->name('urgences.dashboard');
     Route::get('/reanimation/dashboard', [ReanimationController::class, 'index'])->name('reanimation.dashboard');
 });
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -86,8 +81,6 @@ Route::get('/entrer-stock', [\App\Http\Controllers\EntreeController::class, 'ind
 // Sortie de stock
 // Route::get('/sortie-stock', [\App\Http\Controllers\SortieStockController::class, 'index'])->name('sortie_stock.index');
 
-// Commandes internes
-Route::get('/cmd-internes', [\App\Http\Controllers\CommandeServiceController::class, 'index'])->name('cmd_internes.index');
 
 
 Route::get('/chef/fournisseurs', [FournisseurController::class, 'index'])->name('fournisseurs.index');
@@ -237,9 +230,6 @@ Route::resource('sortie_interne', App\Http\Controllers\SortieInterneController::
     Route::resource('details-commandes', DetailCommandeController::class);
     Route::resource('entrees', EntreeController::class);
     Route::resource('details-entrees', DetailEntreeController::class);
-    Route::resource('commandes-services', CommandeServiceController::class);
-    Route::resource('retours-produits', RetourProduitController::class);
-    Route::resource('ordonnances', OrdonnanceController::class);
     Route::resource('alertes-stock', AlerteStockController::class);
 
     /*
@@ -312,6 +302,11 @@ Route::post('/patients', [PatientController::class, 'store'])->name('patients.st
 Route::get('/chef/sortie/patient', [SortieVersPatientController::class, 'create'])->name('sortie_vers_patients.create');
 Route::post('/chef/sortie/patient', [SortieVersPatientController::class, 'store'])->name('sortie_vers_patients.store');
 Route::get('/livraison/derniere', [App\Http\Controllers\LivraisonController::class, 'derniere'])->name('livraison.derniere');
+Route::get('/livraison/derniere', [CommandeFournisseurController::class, 'livraisonDerniereCommande'])->name('livraison.derniere');
+Route::post('/livraison/enregistrer', [CommandeFournisseurController::class, 'sauvegarderLivraison'])->name('livraison.sauvegarder');
+
+// web.php
+Route::get('/livraison/commande/{id}', [CommandeFournisseurController::class, 'formulaireLivraison'])->name('livraison.formulaire');
 
 
 

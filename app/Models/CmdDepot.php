@@ -11,6 +11,16 @@ use App\Models\DetailCmd;
 class CmdDepot extends Model
 {
     use HasFactory;
+
+    protected $table = 'cmd_depot'; // <-- Spécifie la table
+
+    protected $fillable = [
+        'depot_source_id',
+        'depot_dest_id',
+        'date_cmd',
+        'statut',
+    ];
+
     public function depotSource()
     {
         return $this->belongsTo(Depot::class, 'depot_source_id');
@@ -29,6 +39,5 @@ class CmdDepot extends Model
     public function entrees()
     {
         return $this->hasMany(CmdDepotEntree::class);
-}
-
+    }
 }

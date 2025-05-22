@@ -4,104 +4,76 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\CmdDepot;
+use App\Models\Depot;
 
 class CmdDepotController extends Controller
 {
-    
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Afficher la liste des commandes de service
     public function index()
     {
-        $cmdDepots = CmdDepot::with(['depotSource', 'depotDest', 'details', 'entrees'])->get();
-        return response()->json($cmdDepots);
-
+        $commandes = CmdDepot::with(['depotSource', 'depotDest'])->orderByDesc('date_cmd')->get();
+        return view('cmd_depot.index', compact('commandes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Afficher le formulaire de création
     public function create()
     {
-        //
+        $depots = Depot::all();
+        return view('cmd_depot.create', compact('depots'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    // Enregistrer une nouvelle commande
     public function store(Request $request)
     {
-         $validated = $request->validate([
+        $request->validate([
             'depot_source_id' => 'required|exists:depots,id_depot',
-            'depot_dest_id' => 'required|exists:depots,id_depot|different:depot_source_id',
-            'date_cmd' => 'required|date',
-            'statut' => 'nullable|string'
+            'depot_dest_id'   => 'required|exists:depots,id_depot',
+            'date_cmd'        => 'required|date',
+            'statut'          => 'required|string',
         ]);
 
-        $cmdDepot = CmdDepot::create($validated);
-        return response()->json($cmdDepot, 201);
+        CmdDepot::create($request->all());
 
+        return redirect()->route('cmd_depot.index')->with('success', 'Commande créée avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Afficher une commande spécifique
     public function show($id)
     {
-        //
+        $commande = CmdDepot::with(['depotSource', 'depotDest', 'details'])->findOrFail($id);
+        return view('cmd_depot.show', compact('commande'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Afficher le formulaire d'édition
     public function edit($id)
     {
-        //
+        $commande = CmdDepot::findOrFail($id);
+        $depots = Depot::all();
+        return view('cmd_depot.edit', compact('commande', 'depots'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Mettre à jour une commande
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-        'depot_source_id' => 'required|exists:depots,id',
-        'depot_dest_id' => 'required|exists:depots,id|different:depot_source_id',
-        'date_cmd' => 'required|date',
-        'statut' => 'nullable|string'
-    ]);
+        $request->validate([
+            'depot_source_id' => 'required|exists:depots,id_depot',
+            'depot_dest_id'   => 'required|exists:depots,id_depot',
+            'date_cmd'        => 'required|date',
+            'statut'          => 'required|string',
+        ]);
 
-    $cmdDepot = CmdDepot::findOrFail($id);
-    $cmdDepot->update($validated);
-    return response()->json($cmdDepot);
+        $commande = CmdDepot::findOrFail($id);
+        $commande->update($request->all());
 
+        return redirect()->route('cmd_depot.index')->with('success', 'Commande mise à jour avec succès.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Supprimer une commande
     public function destroy($id)
     {
-        //
+        $commande = CmdDepot::findOrFail($id);
+        $commande->delete();
+
+        return redirect()->route('cmd_depot.index')->with('success', 'Commande supprimée avec succès.');
     }
 }
