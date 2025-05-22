@@ -9,9 +9,9 @@
         <i class="bi bi-bag-check"></i> Commande Fournisseur
     </a>
     <a class="nav-link d-flex align-items-center gap-1 px-3 py-2 {{ request()->is('entrer-stock*') ? 'active bg-primary text-white' : 'text-primary' }}"
-       href="{{ route('entrer_stock.index') }}">
+       href="{{ route('entrees.service.create') }}">
         <i class="bi bi-box-arrow-in-down"></i> Entrer en Stock
-    </a>
+    </a>)
     <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle d-flex align-items-center gap-1 px-3 py-2 {{ (request()->is('sortie_vers_patient*') || request()->is('sortie_depots*')) ? 'active bg-primary text-white' : 'text-primary' }}"
            href="#" id="dropdownSortie" role="button" data-bs-toggle="dropdown" aria-expanded="false">

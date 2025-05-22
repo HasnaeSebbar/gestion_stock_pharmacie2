@@ -307,9 +307,25 @@ Route::post('/livraison/enregistrer', [CommandeFournisseurController::class, 'sa
 
 // web.php
 Route::get('/livraison/commande/{id}', [CommandeFournisseurController::class, 'formulaireLivraison'])->name('livraison.formulaire');
+Route::get('chef/entrees/recherche-par-date', [EntreeController::class, 'searchByDate'])->name('entrees.searchByDate');
+// entreede pharma d'apres le service 
+Route::get('/entrees/service/create', [EntreeController::class, 'createEntreeService'])
+     ->name('entrees.service.create');
+
+Route::post('/entrees/service/store', [EntreeController::class, 'storeEntreeService'])
+     ->name('entrees.service.store');
 
 
+Route::get('/chef/entrees/service/create', [EntreeController::class, 'createEntreeService'])
+     ->name('entrees.service.create');
+Route::post('/chef/entrees/service/store', [EntreeController::class, 'storeEntreeService'])
+     ->name('entrees.service.store');
+    
 
+Route::post('/chef/entrees/service/store', [EntreeController::class, 'storeEntreeService'])->name('entrees.service.store');
+
+Route::get('/entrees/create-service', [EntreeController::class, 'createEntreeService'])->name('entrees.create-service');
+Route::get('/chef/entrees/service/create', [App\Http\Controllers\EntreeController::class, 'createEntreeService'])->name('entrees.service.create');
 
 
 
