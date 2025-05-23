@@ -8,9 +8,7 @@
         <a href="{{ route('commandes_fournisseur.create') }}" class="btn btn-primary me-2">
             <i class="bi bi-plus-circle"></i> Passer une commande
         </a>
-        <a href="{{ route('livraisons.create') }}" class="btn btn-success">
-            <i class="bi bi-truck"></i> Enregistrer une livraison
-        </a>
+
     </div>
 
     @if(session('success'))
@@ -58,8 +56,8 @@
                                     </button>
                                 </form>
                                 <a href="{{ route('livraison.formulaire', ['id' => $commande->id]) }}" class="btn btn-sm btn-success">
-    Enregistrer une livraison
-</a>
+                                  <i class="bi bi-truck"></i> Enregistrer une livraison
+                                </a>
                             </td>
                         </tr>
                     @endforeach

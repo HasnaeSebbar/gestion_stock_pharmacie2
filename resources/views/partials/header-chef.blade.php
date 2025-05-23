@@ -11,7 +11,7 @@
     <a class="nav-link d-flex align-items-center gap-1 px-3 py-2 {{ request()->is('entrer-stock*') ? 'active bg-primary text-white' : 'text-primary' }}"
        href="{{ route('entrees.service.create') }}">
         <i class="bi bi-box-arrow-in-down"></i> Entrer en Stock
-    </a>)
+    </a>
     <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle d-flex align-items-center gap-1 px-3 py-2 {{ (request()->is('sortie_vers_patient*') || request()->is('sortie_depots*')) ? 'active bg-primary text-white' : 'text-primary' }}"
            href="#" id="dropdownSortie" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -35,6 +35,19 @@
        >
         <i class="bi bi-clipboard-data"></i> Commande Interne
     </a>
+        </a>
+    <a class="nav-link d-flex align-items-center gap-1 px-3 py-2 {{ request()->is('visualiser-stock*') ? 'active bg-primary text-white' : 'text-primary' }}"
+       {{-- href="{{ route('visualiser_stock.index') }}" --}}
+       >
+        <i class="bi bi-eye"></i> Visualiser Stock
+    </a>
+        </a>
+        <a class="nav-link d-flex align-items-center gap-1 px-3 py-2 {{ request()->is('alertes-stock*') ? 'active bg-primary text-white' : 'text-primary' }}"
+       {{-- href="{{ route('alertes-stock.index') }}" --}}
+       >
+        <i class="bi bi-exclamation-triangle"></i> Alerte Stock
+    </a>
+
 </nav>
 
 <style>

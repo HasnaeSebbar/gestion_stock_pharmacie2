@@ -26,62 +26,27 @@ class UserSeeder extends Seeder
             'depot_id' => 1,
         ]);
     }
-
-
-        if (!User::where('email', 'sebbarhasnae230@gmail.com')->exists()) {
-        User::create([
-            'name' => 'sebbar',
-            'prenom' => 'hasnae',
-            'email' => 'sebbarhasnae230@gmail.com',
-            'email_verified_at' => now(),
-            'password' => bcrypt('123456780'),
-            'role' => 'responsable de service chirurgie',
-            'depot_id' => 5,
-        ]);
-    }
-
-       if (!User::where('email', 'chef@pharma.com')->exists()) {
+       if (!User::where('email', 'chef@gmail.com')->exists()) {
         User::create([
             'name' => 'Chef',
             'prenom' => 'Pharmacie',
-            'email' => 'chef@pharma.com',
+            'email' => 'chef@gmail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('chef123'),
             'role' => 'chef pharmacie',
             'depot_id' => 1,
-]);
+   ]);
     }
-    if (!User::where('email', 'serviceurgences@gmail.com')->exists()) {
+    
+    if (!User::where('email', 'radiologie@gmail.com')->exists()) {
         User::create([
-            'name' => 'service Urgences',
-            'prenom' => ' Urgences',
-            'email' => 'serviceurgences0@gmail.com',
+            'name' => 'service radiologie',
+            'prenom' => 'majeur',
+            'email' => 'radiologie@gmail.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('22222222'),
-            'role' => 'responsable de service Urgences',
+            'password' => bcrypt('radiologie1234'),
+            'role' => 'majeur',
             'depot_id' => 2,
-        ]);
-    }
-         if (!User::where('email', 'reanimation@pharma.com')->exists()) {
-        User::create([
-            'name' => 'service Réanimation',
-            'prenom' => 'Réanimation',
-            'email' => 'reanimation@pharma.com',
-            'email_verified_at' => now(),
-            'password' => bcrypt('33333333'),
-            'role' => 'responsable de service Réanimation',
-            'depot_id' => 3,
-]);
-    }
-    if (!User::where('email', 'pediatrie@gmail.com')->exists()) {
-        User::create([
-            'name' => 'service pédiatrie',
-            'prenom' => 'pédiatrie',
-            'email' => 'pediatrie@gmail.com',
-            'email_verified_at' => now(),
-            'password' => bcrypt('44444444'),
-            'role' => 'responsable de service  pédiatrie',
-            'depot_id' => 4,
         ]);
     }
 
