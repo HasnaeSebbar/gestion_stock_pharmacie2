@@ -15,11 +15,11 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        if (!User::where('email', 'zahiramahfoudi5@gmail.com')->exists()) {
+        if (!User::where('email', 'pharmacien@gmail.com')->exists()) {
         User::create([
-            'name' => 'Mahfoudi',
+            'name' => 'pharmacien',
             'prenom' => 'Zahira',
-            'email' => 'zahiramahfoudi5@gmail.com',
+            'email' => 'pharmacien@gmail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('123456789'),
             'role' => 'pharmacien',

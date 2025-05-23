@@ -5,16 +5,6 @@
         <a class="navbar-brand fw-bold fs-3 text-primary" href="{{ route('dashboard') }}" style="letter-spacing:1px;">
             PharmaGestion
         </a>
-
-        <!-- Dashboard link -->
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item ms-3">
-                <a class="nav-link fw-semibold {{ request()->routeIs('chef.dashboard') ? 'active text-primary' : '' }}" href="{{ route('chef.dashboard') }}">
-                    Dashboard
-                </a>
-            </li>
-        </ul>
-
         <!-- User Dropdown -->
         @auth
         <div class="dropdown">
