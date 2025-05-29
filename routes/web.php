@@ -78,57 +78,6 @@ Route::get('/fournisseurs', [\App\Http\Controllers\FournisseurController::class,
 // Entrée en stock
 Route::get('/entrer-stock', [\App\Http\Controllers\EntreeController::class, 'index'])->name('entrer_stock.index');
 
-// Sortie de stock
-// Route::get('/sortie-stock', [\App\Http\Controllers\SortieStockController::class, 'index'])->name('sortie_stock.index');
-
-
-
-Route::get('/chef/fournisseurs', [FournisseurController::class, 'index'])->name('fournisseurs.index');
-Route::get('/chef/fournisseurs', [FournisseurController::class, 'create'])->name('fournisseurs.create');
-Route::post('/chef/fournisseurs', [FournisseurController::class, 'store'])->name('fournisseurs.store');
-Route::get('/chef/fournisseurs/{id}/edit', [FournisseurController::class, 'edit'])->name('fournisseurs.edit');
-Route::put('/chef/fournisseurs/{id}', [FournisseurController::class, 'update'])->name('fournisseurs.update');
-Route::delete('/chef/fournisseurs/{id}', [FournisseurController::class, 'destroy'])->name('fournisseurs.destroy');
-Route::resource('fournisseurs', FournisseurController::class);
-Route::post('/fournisseurs', [FournisseurController::class, 'store'])->name('fournisseurs.store');
-Route::get('/fournisseurs/{id}/edit', [FournisseurController::class, 'edit'])->name('fournisseurs.edit');
-Route::put('/fournisseurs/{id}', [FournisseurController::class, 'update'])->name('fournisseurs.update');
-Route::delete('/fournisseurs/{id}', [FournisseurController::class, 'destroy'])->name('fournisseurs.destroy');
-Route::get('/commandes-fournisseur', [App\Http\Controllers\CommandeFournisseurController::class, 'index'])->name('commandes.fournisseur.index');
-Route::get('/commandes-fournisseur/create', [App\Http\Controllers\CommandeFournisseurController::class, 'create'])->name('commandes.fournisseur.create');
-Route::post('/commandes-fournisseur', [App\Http\Controllers\CommandeFournisseurController::class, 'store'])->name('commandes.fournisseur.store');
-Route::get('/commandes-fournisseur/{id}', [App\Http\Controllers\CommandeFournisseurController::class, 'show'])->name('commandes.fournisseur.show');
-Route::get('/commandes-fournisseur/{id}/edit', [App\Http\Controllers\CommandeFournisseurController::class, 'edit'])->name('commandes.fournisseur.edit');
-Route::put('/commandes-fournisseur/{id}', [App\Http\Controllers\CommandeFournisseurController::class, 'update'])->name('commandes.fournisseur.update');
-Route::delete('/commandes-fournisseur/{id}', [App\Http\Controllers\CommandeFournisseurController::class, 'destroy'])->name('commandes.fournisseur.destroy');
-Route::get('/commandes-fournisseur', [CommandeFournisseurController::class, 'index'])->name('commandes.index');
-Route::get('/commandes-fournisseur/create', [CommandeFournisseurController::class, 'create'])->name('commandes.create');
-Route::get('/livraisons/create', function () {
-    return view('chef.commandes_fournisseur.livraison'); // à créer aussi
-})->name('livraisons.create');
-Route::post('/commandes-fournisseur', [CommandeFournisseurController::class, 'store'])->name('commandes.store');
-Route::get('/commandes-fournisseur/{id}', [CommandeFournisseurController::class, 'show'])->name('commandes.show');
-Route::get('/commandes-fournisseur/{id}/edit', [CommandeFournisseurController::class, 'edit'])->name('commandes.edit');
-Route::put('/commandes-fournisseur/{id}', [CommandeFournisseurController::class, 'update'])->name('commandes.update');
-Route::delete('/commandes-fournisseur/{id}', [CommandeFournisseurController::class, 'destroy'])->name('commandes.destroy');
-Route::get('/commandes-fournisseur', [CommandeFournisseurController::class, 'index'])->name('commandes_fournisseur.index');
-Route::get('/commandes-fournisseur/{id}', [CommandeFournisseurController::class, 'show'])->name('commandes_fournisseur.show');
-Route::get('/commandes-fournisseur/{id}/edit', [CommandeFournisseurController::class, 'edit'])->name('commandes_fournisseur.edit');
-Route::put('/commandes-fournisseur/{id}', [CommandeFournisseurController::class, 'update'])->name('commandes_fournisseur.update');
-Route::delete('/commandes-fournisseur/{id}', [CommandeFournisseurController::class, 'destroy'])->name('commandes_fournisseur.destroy');
-
-Route::get('/commandes-fournisseur/create', [CommandeFournisseurController::class, 'create'])->name('commandes_fournisseur.create');
-Route::post('/commandes-fournisseur', [CommandeFournisseurController::class, 'store'])->name('commandes_fournisseur.store');
-Route::get('/chef/commande-fournisseurs/create', [CommandeFournisseurController::class, 'create'])->name('commande_fournisseurs.create');
-Route::post('/chef/commande-fournisseurs', [CommandeFournisseurController::class, 'store'])->name('commande_fournisseurs.store');
-Route::get('/chef/commande-fournisseurs/{id}/bon-commande', [CommandeFournisseurController::class, 'bonCommande'])->name('commande_fournisseurs.bon_commande');
-Route::resource('commande_fournisseurs', CommandeFournisseurController::class);
-
-Route::get('/commandes-fournisseur/{id}/edit', [CommandeFournisseurController::class, 'edit'])->name('commandes_fournisseur.edit');
-Route::get('/chef/fournisseurs/{id}/edit', [FournisseurController::class, 'edit'])->name('fournisseurs.edit');
-Route::get('/commandes-fournisseur/pdf/{id}', [CommandeFournisseurController::class, 'showPDF'])->name('commandes_fournisseur.show_pdf');
-
-Route::get('/commandes_fournisseur/{id}/imprimer', [CommandeFournisseurController::class, 'imprimer'])->name('commandes_fournisseur.imprimer');
 Route::resource('depots', DepotController::class);
 Route::resource('produits', ProduitController::class);
 Route::resource('cmd_depots', CmdDepotController::class);
@@ -137,10 +86,6 @@ Route::resource('patients', PatientController::class);
 
 // Sortie vers patient
 Route::resource('sortie_vers_patients', SortieVersPatientController::class);
-Route::get('/sortie_vers_patients/create', [SortieVersPatientController::class, 'create'])->name('sortie_vers_patients.create');
-Route::get('/sortie_vers_patients/pdf', [SortieVersPatientController::class, 'genererPDF'])->name('sortie_vers_patients.pdf');
-
-
 
 // Sortie interne
 Route::resource('sortie_internes', SortieInterneController::class);
@@ -157,66 +102,6 @@ Route::resource('stocks', App\Http\Controllers\StockController::class);
 Route::resource('stock_produits', App\Http\Controllers\StockProduitController::class);
 Route::resource('sortie_interne', App\Http\Controllers\SortieInterneController::class);
 
-
-
-
-
-
-// // Route pour Sortie de Stock
-// Route::resource('sortie-stock', App\Http\Controllers\SortieStockController::class)->names('sortie_stock');
-
-// // Route pour Visualisation de Stock
-// Route::resource('visualisation-stock', App\Http\Controllers\VisualisationStockController::class)->names('visualisation_stock');
-
-
-
-
-
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Routes de redirection après login
-    |--------------------------------------------------------------------------
-    */
-    // Route::get('/redirect-after-login', [AuthenticatedSessionController::class, 'redirectAfterLogin'])->name('redirect.after.login');
-
-
-     /*
-    |--------------------------------------------------------------------------
-    | Redirection après login selon rôle
-    |--------------------------------------------------------------------------
-    */
-    // Route::get('/redirect-after-login', function () {
-    //     $user = Auth::user();
-    //     return match ($user->role) {
-    //         'pharmacien' => redirect()->route('pharmacien.dashboard'),
-    //         'responsable_service_pediatrie' => redirect()->route('pediatrie.dashboard'),
-    //         'responsable_service_reanimation' => redirect()->route('reanimation.dashboard'),
-    //         'responsable_service_urgences' => redirect()->route('urgences.dashboard'),
-    //         'responsable_service_chirurgie' => redirect()->route('chirurgie.dashboard'),
-    //         'chef_pharmacie' => redirect()->route('chef.pharmacie.dashboard'),
-    //         default      => abort(403, 'Rôle non autorisé.'),
-    //     };
-    // });
-    
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Dashboards par rôle
-    |--------------------------------------------------------------------------
-    */
-    // Route::get('/pharmacien/dashboard', [PharmacienController::class, 'index'])->name('pharmacien.dashboard');
-    // Route::get('/chef/pharmacie/dashboard', fn() => view('chef.pharmacie.dashboard'))->name('chef.pharmacie.dashboard');
-    // Route::get('/pharmacie/dashboard', [Depot::class, 'dashboard'])->name('pharmacie.dashboard');
-
-    // Dashboards spécifiques aux responsables de service
-    // Route::get('/pediatrie/dashboard', fn() => view('services.pediatrie.dashboard'))->name('pediatrie.dashboard');
-    // Route::get('/reanimation/dashboard', fn() => view('services.reanimation.dashboard'))->name('reanimation.dashboard');
-    // Route::get('/urgences/dashboard', fn() => view('services.urgences.dashboard'))->name('urgences.dashboard');
-    // Route::get('/chirurgie/dashboard', fn() => view('services.chirurgie.dashboard'))->name('chirurgie.dashboard');
-
     /*
     |--------------------------------------------------------------------------
     | Gestion des utilisateurs et entités de base
@@ -232,100 +117,136 @@ Route::resource('sortie_interne', App\Http\Controllers\SortieInterneController::
     Route::resource('details-entrees', DetailEntreeController::class);
     Route::resource('alertes-stock', AlerteStockController::class);
 
-    /*
-    |--------------------------------------------------------------------------
-    | Routes spécifiques
-    |--------------------------------------------------------------------------
-    */
-    // Route::get('/commande-fournisseur/create', [CommandeFournisseurController::class, 'create'])->name('commande-fournisseur.create');
-    // Route::get('/stock', fn() => view('pharmacien.stock'))->name('stock.index');
-
-    /*
-    |--------------------------------------------------------------------------
-    | Routes responsables de services
-    |--------------------------------------------------------------------------
-    */
-    // Route::middleware(['auth', 'role:responsable_service_pediatrie'])->prefix('pediatrie')->group(function () {
-    //     Route::get('/stock', fn() => view('services.pediatrie.stock'))->name('pediatrie.stock');
-    //     Route::resource('commandes', CommandeServiceController::class);
-    // });
-
-    // Route::middleware(['auth', 'role:responsable_service_reanimation'])->prefix('reanimation')->group(function () {
-    //     Route::get('/stock', fn() => view('services.reanimation.stock'))->name('reanimation.stock');
-    //     Route::resource('commandes', CommandeServiceController::class);
-    // });
-
-    // Route::middleware(['auth', 'role:responsable_service_urgences'])->prefix('urgences')->group(function () {
-    //     Route::get('/stock', fn() => view('services.urgences.stock'))->name('urgences.stock');
-    //     Route::resource('commandes', CommandeServiceController::class);
-    // });
-
-    // Route::middleware(['auth', 'role:responsable_service_chirurgie'])->prefix('chirurgie')->group(function () {
-    //     Route::get('/stock', fn() => view('services.chirurgie.stock'))->name('chirurgie.stock');
-    //     Route::resource('commandes', CommandeServiceController::class);
-    // });
-
-    /*
-    |--------------------------------------------------------------------------
-    | Déconnexion
-    |--------------------------------------------------------------------------
-    */
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 
+//**************************************************************************** */
 
-Route::get('/commandes-fournisseur/produits', [CommandeFournisseurController::class, 'afficherProduits'])->name('commande_fournisseurs.produits');
-Route::get('/commandes-fournisseur/create', [CommandeFournisseurController::class, 'step1'])->name('commandes_fournisseur.create');
-Route::post('/commandes-fournisseur/step2', [CommandeFournisseurController::class, 'step2'])->name('commandes_fournisseur.step2');
-Route::post('/commandes-fournisseur/store', [CommandeFournisseurController::class, 'store'])->name('commandes_fournisseur.store');
+// Groupe routes chef de pharmacie uniquement (exemple pour les vues dans chef/)
+Route::middleware(['auth', 'role:chef pharmacie'])->group(function () {
+    Route::get('/chef/dashboard', [ChefPharmacieController::class, 'dashboard'])->name('chef.dashboard');
+    // Toutes les routes qui affichent les vues dans le dossier chef/
+    Route::get('chef/fournisseurs', [FournisseurController::class, 'index'])->name('chef.fournisseurs.index');
+    Route::get('chef/fournisseurs/create', [FournisseurController::class, 'create'])->name('chef.fournisseurs.create');
+    Route::post('chef/fournisseurs', [FournisseurController::class, 'store'])->name('chef.fournisseurs.store');
+    // ...autres routes chef/
+    Route::get('/chef/commandes-fournisseur/produits', [CommandeFournisseurController::class, 'afficherProduits'])->name('commande_fournisseurs.produits');
+Route::get('/chef/commandes-fournisseur/create', [CommandeFournisseurController::class, 'step1'])->name('commandes_fournisseur.create');
+Route::post('/chef/commandes-fournisseur/step2', [CommandeFournisseurController::class, 'step2'])->name('commandes_fournisseur.step2');
+Route::post('/chef/commandes-fournisseur/store', [CommandeFournisseurController::class, 'store'])->name('commandes_fournisseur.store');
 // Route pour afficher le formulaire de création (étape 1)
-Route::get('/commandes-fournisseur/create', [CommandeFournisseurController::class, 'create'])->name('commandes_fournisseur.create');
+Route::get('/chef/commandes-fournisseur/create', [CommandeFournisseurController::class, 'create'])->name('commandes_fournisseur.create');
 
 // Route pour envoyer le formulaire (étape 2)
 // Route::post('/commandes-fournisseur/store', [CommandeFournisseurController::class, 'store'])->name('commandes_fournisseur.store');
 // Route pour gérer l'étape 2
 // Route::post('/commandes-fournisseur/step2', [CommandeFournisseurController::class, 'step2'])->name('commandes_fournisseur.step2');
 
-Route::get('/commandes_fournisseur/create', [CommandeFournisseurController::class, 'create'])->name('commandes_fournisseur.create');
-Route::post('/commandes_fournisseur/step2', [CommandeFournisseurController::class, 'step2'])->name('commandes_fournisseur.step2');
+Route::get('/chef/commandes_fournisseur/create', [CommandeFournisseurController::class, 'create'])->name('commandes_fournisseur.create');
+Route::post('/chef/commandes_fournisseur/step2', [CommandeFournisseurController::class, 'step2'])->name('commandes_fournisseur.step2');
 
-Route::post('/commandes-fournisseur', [CommandeFournisseurController::class, 'store'])->name('commandes_fournisseur.store');
+Route::post('/chef/commandes-fournisseur', [CommandeFournisseurController::class, 'store'])->name('commandes_fournisseur.store');
 
+Route::get('/chef/commandes-fournisseur/pdf/{id}', [CommandeFournisseurController::class, 'showPDF'])->name('commandes_fournisseur.show_pdf');
+
+Route::get('/chef/commandes_fournisseur/{id}/imprimer', [CommandeFournisseurController::class, 'imprimer'])->name('commandes_fournisseur.imprimer');
+Route::get('/chef/fournisseurs', [FournisseurController::class, 'index'])->name('fournisseurs.index');
+Route::get('/chef/fournisseurs', [FournisseurController::class, 'create'])->name('fournisseurs.create');
+Route::post('/chef/fournisseurs', [FournisseurController::class, 'store'])->name('fournisseurs.store');
+Route::get('/chef/fournisseurs/{id}/edit', [FournisseurController::class, 'edit'])->name('fournisseurs.edit');
+Route::put('/chef/fournisseurs/{id}', [FournisseurController::class, 'update'])->name('fournisseurs.update');
+Route::delete('/chef/fournisseurs/{id}', [FournisseurController::class, 'destroy'])->name('fournisseurs.destroy');
+Route::resource('fournisseurs', FournisseurController::class);
+Route::post('/chef/fournisseurs', [FournisseurController::class, 'store'])->name('fournisseurs.store');
+Route::get('/chef/fournisseurs/{id}/edit', [FournisseurController::class, 'edit'])->name('fournisseurs.edit');
+Route::put('/chef/fournisseurs/{id}', [FournisseurController::class, 'update'])->name('fournisseurs.update');
+Route::delete('/chef/fournisseurs/{id}', [FournisseurController::class, 'destroy'])->name('fournisseurs.destroy');
+Route::get('/chef/commandes-fournisseur', [App\Http\Controllers\CommandeFournisseurController::class, 'index'])->name('commandes.fournisseur.index');
+Route::get('/chef/commandes-fournisseur/create', [App\Http\Controllers\CommandeFournisseurController::class, 'create'])->name('commandes.fournisseur.create');
+Route::post('/chef/commandes-fournisseur', [App\Http\Controllers\CommandeFournisseurController::class, 'store'])->name('commandes.fournisseur.store');
+Route::get('/chef/commandes-fournisseur/{id}', [App\Http\Controllers\CommandeFournisseurController::class, 'show'])->name('commandes.fournisseur.show');
+Route::get('/chef/commandes-fournisseur/{id}/edit', [App\Http\Controllers\CommandeFournisseurController::class, 'edit'])->name('commandes.fournisseur.edit');
+Route::put('/chef/commandes-fournisseur/{id}', [App\Http\Controllers\CommandeFournisseurController::class, 'update'])->name('commandes.fournisseur.update');
+Route::delete('/chef/commandes-fournisseur/{id}', [App\Http\Controllers\CommandeFournisseurController::class, 'destroy'])->name('commandes.fournisseur.destroy');
+Route::get('/chef/commandes-fournisseur', [CommandeFournisseurController::class, 'index'])->name('commandes.index');
+Route::get('/chef/commandes-fournisseur/create', [CommandeFournisseurController::class, 'create'])->name('commandes.create');
+Route::get('/chef/livraisons/create', function () {
+    return view('chef.commandes_fournisseur.livraison'); // à créer aussi
+})->name('livraisons.create');
+Route::post('/chef/commandes-fournisseur', [CommandeFournisseurController::class, 'store'])->name('commandes.store');
+Route::get('/chef/commandes-fournisseur/{id}', [CommandeFournisseurController::class, 'show'])->name('commandes.show');
+Route::get('/chef/commandes-fournisseur/{id}/edit', [CommandeFournisseurController::class, 'edit'])->name('commandes.edit');
+Route::put('/commandes-fournisseur/{id}', [CommandeFournisseurController::class, 'update'])->name('commandes.update');
+Route::delete('/chef/commandes-fournisseur/{id}', [CommandeFournisseurController::class, 'destroy'])->name('commandes.destroy');
+Route::get('/chef/commandes-fournisseur', [CommandeFournisseurController::class, 'index'])->name('commandes_fournisseur.index');
+Route::get('/chef/commandes-fournisseur/{id}', [CommandeFournisseurController::class, 'show'])->name('commandes_fournisseur.show');
+Route::get('/chef/commandes-fournisseur/{id}/edit', [CommandeFournisseurController::class, 'edit'])->name('commandes_fournisseur.edit');
+Route::put('/chef/commandes-fournisseur/{id}', [CommandeFournisseurController::class, 'update'])->name('commandes_fournisseur.update');
+Route::delete('/chef/commandes-fournisseur/{id}', [CommandeFournisseurController::class, 'destroy'])->name('commandes_fournisseur.destroy');
+
+Route::get('/chef/commandes-fournisseur/create', [CommandeFournisseurController::class, 'create'])->name('commandes_fournisseur.create');
+Route::post('/chef/commandes-fournisseur', [CommandeFournisseurController::class, 'store'])->name('commandes_fournisseur.store');
+Route::get('/chef/commande-fournisseurs/create', [CommandeFournisseurController::class, 'create'])->name('commande_fournisseurs.create');
+Route::post('/chef/commande-fournisseurs', [CommandeFournisseurController::class, 'store'])->name('commande_fournisseurs.store');
+Route::get('/chef/commande-fournisseurs/{id}/bon-commande', [CommandeFournisseurController::class, 'bonCommande'])->name('commande_fournisseurs.bon_commande');
+Route::resource('commande_fournisseurs', CommandeFournisseurController::class);
+
+Route::get('/chef/commandes-fournisseur/{id}/edit', [CommandeFournisseurController::class, 'edit'])->name('commandes_fournisseur.edit');
+Route::get('/chef/fournisseurs/{id}/edit', [FournisseurController::class, 'edit'])->name('fournisseurs.edit');
 Route::get('/commandes-fournisseur/pdf/{id}', [CommandeFournisseurController::class, 'showPDF'])->name('commandes_fournisseur.show_pdf');
 
-Route::get('/commandes_fournisseur/{id}/imprimer', [CommandeFournisseurController::class, 'imprimer'])->name('commandes_fournisseur.imprimer');
-Route::post('/patients/ajax-store', [PatientController::class, 'ajaxStore'])->name('patients.ajaxStore');
-Route::post('/sortie_vers_patient', [SortieVersPatientController::class, 'store'])->name('sortie_vers_patients.store');
-Route::get('/patients/create', [PatientController::class, 'create'])->name('patients.create');
-Route::post('/patients', [PatientController::class, 'store'])->name('patients.store');
-
-Route::get('/chef/sortie/patient', [SortieVersPatientController::class, 'create'])->name('sortie_vers_patients.create');
-Route::post('/chef/sortie/patient', [SortieVersPatientController::class, 'store'])->name('sortie_vers_patients.store');
-Route::get('/livraison/derniere', [App\Http\Controllers\LivraisonController::class, 'derniere'])->name('livraison.derniere');
-Route::get('/livraison/derniere', [CommandeFournisseurController::class, 'livraisonDerniereCommande'])->name('livraison.derniere');
-Route::post('/livraison/enregistrer', [CommandeFournisseurController::class, 'sauvegarderLivraison'])->name('livraison.sauvegarder');
+Route::get('/chef/commandes_fournisseur/{id}/imprimer', [CommandeFournisseurController::class, 'imprimer'])->name('commandes_fournisseur.imprimer');
+Route::get('/chef/livraison/derniere', [CommandeFournisseurController::class, 'livraisonDerniereCommande'])->name('livraison.derniere');
+Route::post('/chef/livraison/enregistrer', [CommandeFournisseurController::class, 'sauvegarderLivraison'])->name('livraison.sauvegarder');
 
 // web.php
-Route::get('/livraison/commande/{id}', [CommandeFournisseurController::class, 'formulaireLivraison'])->name('livraison.formulaire');
-Route::get('chef/entrees/recherche-par-date', [EntreeController::class, 'searchByDate'])->name('entrees.searchByDate');
+Route::get('/chef/livraison/commande/{id}', [CommandeFournisseurController::class, 'formulaireLivraison'])->name('livraison.formulaire');
+
+
+});
+
+
+
+// Groupe routes communes pharmacien + chef (pour entrees/ et sortie/)
+Route::middleware(['auth', 'role:pharmacien,chef pharmacie'])->group(function () {
+    // Dashboard pharmacien
+    Route::get('/pharmacien/dashboard', [PharmacienController::class, 'index'])->name('pharmacien.dashboard');
+    // Entrées
+    Route::get('/entrees/service/create', [EntreeController::class, 'createEntreeService'])->name('entrees.service.create');
+    Route::post('/entrees/service/store', [EntreeController::class, 'storeEntreeService'])->name('entrees.service.store');
+    // Sorties (exemple)
+    // Route::get('/sortie/vers-patient', [SortieVersPatientController::class, 'create'])->name('sortie_vers_patients.create');
+    // ...autres routes entrees/ et sortie/
+    Route::get('chef-pharmacien/entrees/recherche-par-date', [EntreeController::class, 'searchByDate'])->name('entrees.searchByDate');
 // entreede pharma d'apres le service 
-Route::get('/entrees/service/create', [EntreeController::class, 'createEntreeService'])
+Route::get('chef-pharmacien/entrees/service/create', [EntreeController::class, 'createEntreeService'])
      ->name('entrees.service.create');
 
-Route::post('/entrees/service/store', [EntreeController::class, 'storeEntreeService'])
+Route::post('chef-pharmacien/entrees/service/store', [EntreeController::class, 'storeEntreeService'])
      ->name('entrees.service.store');
 
 
-Route::get('/chef/entrees/service/create', [EntreeController::class, 'createEntreeService'])
+Route::get('chef-pharmacien/entrees/service/create', [EntreeController::class, 'createEntreeService'])
      ->name('entrees.service.create');
-Route::post('/chef/entrees/service/store', [EntreeController::class, 'storeEntreeService'])
+Route::post('chef-pharmacien/entrees/service/store', [EntreeController::class, 'storeEntreeService'])
      ->name('entrees.service.store');
     
 
-Route::post('/chef/entrees/service/store', [EntreeController::class, 'storeEntreeService'])->name('entrees.service.store');
+Route::post('chef-pharmacien/entrees/service/store', [EntreeController::class, 'storeEntreeService'])->name('entrees.service.store');
 
-Route::get('/entrees/create-service', [EntreeController::class, 'createEntreeService'])->name('entrees.create-service');
-Route::get('/chef/entrees/service/create', [App\Http\Controllers\EntreeController::class, 'createEntreeService'])->name('entrees.service.create');
+Route::get('chef-pharmacien/entrees/create-service', [EntreeController::class, 'createEntreeService'])->name('entrees.create-service');
+Route::get('chef-pharmacien/entrees/service/create', [App\Http\Controllers\EntreeController::class, 'createEntreeService'])->name('entrees.service.create');
+Route::post('chef-pharmacien/patients/ajax-store', [PatientController::class, 'ajaxStore'])->name('patients.ajaxStore');
+Route::post('chef-pharmacien/sortie_vers_patient', [SortieVersPatientController::class, 'store'])->name('sortie_vers_patients.store');
+Route::get('chef-pharmacien/patients/create', [PatientController::class, 'create'])->name('patients.create');
+Route::post('chef-pharmacien/patients', [PatientController::class, 'store'])->name('patients.store');
+
+Route::get('chef-pharmacien/sortie/patient', [SortieVersPatientController::class, 'create'])->name('sortie_vers_patients.create');
+Route::post('chef-pharmacien/sortie/patient', [SortieVersPatientController::class, 'store'])->name('sortie_vers_patients.store');
+Route::get('chef-pharmacien/sortie_vers_patients/create', [SortieVersPatientController::class, 'create'])->name('sortie_vers_patients.create');
+Route::get('chef-pharmacien/sortie_vers_patients/pdf', [SortieVersPatientController::class, 'genererPDF'])->name('sortie_vers_patients.pdf');
+
+});
 
 
 

@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         if (!User::where('email', 'pharmacien@gmail.com')->exists()) {
         User::create([
             'name' => 'pharmacien',
-            'prenom' => 'Zahira',
+            'prenom' => 'Douaa',
             'email' => 'pharmacien@gmail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('123456789'),

@@ -22,8 +22,6 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
-// Removed duplicate $routeMiddleware declaration
-
 
     /**
      * The application's route middleware groups.
