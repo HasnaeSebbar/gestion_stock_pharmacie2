@@ -44,5 +44,9 @@ class Produit extends Model
     {
         return $this->hasMany(DetailEntreeDepot::class, 'id_produit');
     }
+    public function produit()
+    {
+        return $this->belongsTo(Produit::class, 'id_produit', 'id');
+    }
 }
 

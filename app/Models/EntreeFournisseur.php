@@ -14,10 +14,10 @@ class EntreeFournisseur extends Model
      protected $keyType = 'int';
 
     protected $fillable = [
-        'commande_id',
-        'date_entree',
         'id_depot',
         'fournisseur_id',
+        'commande_id',
+        'date_entree',
     ];
 
 

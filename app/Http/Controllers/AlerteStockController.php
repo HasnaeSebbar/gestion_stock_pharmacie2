@@ -2,54 +2,100 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AlerteStock;
+use App\Models\Depot;
 use App\Models\Produit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+
 
 class AlerteStockController extends Controller
 {
-    // Afficher la liste des alertes de stock
     public function index()
     {
-        // Récupérer les produits dont le stock est inférieur au seuil d'alerte
-        $produitsEnAlerte = Produit::where('quantite', '<=', 'seuil_alerte')->get();
+        $produitsAlerte = DB::table('stocks')
+            ->join('depots', 'stocks.id_depot', '=', 'depots.id_depot')
+            ->join('stock_produits', 'stocks.id_stock_produit', '=', 'stock_produits.id_stock_produit')
+            ->join('produits', 'stock_produits.id_produit', '=', 'produits.id')
+            ->select(
+                'depots.nom as depot_nom',
+                'produits.nom as produit_nom',
+                'stock_produits.quantite',
+                'stock_produits.stock_alerte'
+            )
+            ->whereColumn('stock_produits.quantite', '<', 'stock_produits.stock_alerte')
+            ->get();
 
-        return view('alertes_stock.index', compact('produitsEnAlerte'));
+        return view('chef.alerteStocks.produits_en_alerte', compact('produitsAlerte'));
     }
 
-    // Afficher les détails d'une alerte de stock pour un produit
-    public function show($id)
+    public function create()
     {
-        $produit = Produit::findOrFail($id);
-        
-        return view('alertes_stock.show', compact('produit'));
+        $depots = Depot::all();
+        $produits = Produit::all();
+        return view('alerteStocks.create', compact('depots', 'produits'));
     }
 
-    // Gérer l'alerte de stock (par exemple, marquer un produit comme ayant été réapprovisionné)
-    public function update(Request $request, $id)
+    public function store(Request $request)
     {
-        $request->validate([
-            'quantite' => 'required|integer|min:0',
+        $validated = $request->validate([
+            'id_depot' => 'required|exists:depots,id_depot',
+            'id_produit' => 'required|exists:produits,id',
+            'type_alerte' => 'required|string|max:255',
+            'date_alerte' => 'required|date',
         ]);
 
-        $produit = Produit::findOrFail($id);
+        AlerteStock::create($validated);
 
-        // Mettre à jour la quantité de stock
-        $produit->quantite = $request->quantite;
-        $produit->save();
-
-        // Rediriger avec un message de succès
-        return redirect()->route('alertes_stock.index')->with('success', 'Stock mis à jour avec succès.');
+        return redirect()->route('alerteStocks.index')->with('success', 'Alerte créée avec succès.');
     }
 
-    // Supprimer une alerte (si nécessaire)
-    public function destroy($id)
+    public function show(AlerteStock $alerteStock)
     {
-        $produit = Produit::findOrFail($id);
-
-        // Ici, on peut envisager de supprimer une alerte ou de remettre la quantité à la normale
-        // Par exemple, si le stock est réapprovisionné, on peut supprimer l'alerte
-
-        return redirect()->route('alertes_stock.index')->with('success', 'Alerte supprimée avec succès.');
+        $alerteStock->load('depot', 'produit');
+        return view('alerteStocks.show', compact('alerteStock'));
     }
-    
+
+    public function edit(AlerteStock $alerteStock)
+    {
+        $depots = Depot::all();
+        $produits = Produit::all();
+        return view('alerteStocks.edit', compact('alerteStock', 'depots', 'produits'));
+    }
+
+    public function update(Request $request, AlerteStock $alerteStock)
+    {
+        $validated = $request->validate([
+            'id_depot' => 'required|exists:depots,id_depot',
+            'id_produit' => 'required|exists:produits,id',
+            'type_alerte' => 'required|string|max:255',
+            'date_alerte' => 'required|date',
+        ]);
+
+        $alerteStock->update($validated);
+
+        return redirect()->route('alerteStocks.index')->with('success', 'Alerte mise à jour avec succès.');
+    }
+
+    public function destroy(AlerteStock $alerteStock)
+    {
+        $alerteStock->delete();
+        return redirect()->route('alerteStocks.index')->with('success', 'Alerte supprimée avec succès.');
+    }
+
+    public function produitsEnAlerte()
+    {
+        $produitsAlerte = DB::table('stock_produits')
+            ->join('produits', 'stock_produits.id_produit', '=', 'produits.id')
+            ->select(
+                'produits.nom as nom',
+                'stock_produits.quantite_initial',
+                'stock_produits.seuil_alerte'
+            )
+            ->whereColumn('stock_produits.quantite_initial', '<', 'stock_produits.seuil_alerte')
+            ->get();
+
+        return view('chef.alerteStocks.produits_en_alerte', compact('produitsAlerte'));
+    }
 }

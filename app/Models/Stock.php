@@ -9,7 +9,13 @@ class Stock extends Model
 {
     use HasFactory;
 
+    protected $table = 'stocks';
     protected $primaryKey = 'id_stock';
+
+    protected $fillable = [
+        'id_depot',
+        // autres champs si besoin
+    ];
 
     public function depot()
     {

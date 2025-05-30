@@ -40,4 +40,5 @@ class CmdDepot extends Model
     {
         return $this->hasMany(CmdDepotEntree::class);
     }
+    
 }

@@ -2,101 +2,106 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\CmdDepot;
 use App\Models\SortieDepot;
+use App\Models\Depot;
+use App\Models\CommandeDepotSc;
+use App\Models\DetailCommandeDepotSc;
+use Illuminate\Http\Request;
 
 class SortieDepotController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $sorties = SortieDepot::all();
-        return view('sortiedepots.index', compact('sorties'));
+        $sorties = SortieDepot::with('depotSource', 'depotDestin')->get();
+        return view('sortie_depots.index', compact('sorties'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        return view('sortiedepots.create');
+        $services = Depot::all();
+        $commandes = CmdDepot::all();
+        // Liste fixe des types de commande
+        $types_commande = [
+            'bon mensuelle',
+            'bon retour',
+            'bon échange',
+            'bon décharge',
+            'bon ordonnance',
+            'bon supplémentaire'
+        ];
+
+        return view('chef.sortie.service', compact('services', 'commandes', 'types_commande'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'date_sortie' => 'required|date',
-            'id_depot_source' => 'required|exists:depots,id',
-            'id_depot_destinataire' => 'required|exists:depots,id',
+            'id_depot_source' => 'required|exists:depots,id_depot',
+            'id_depot_destin' => 'required|exists:depots,id_depot',
         ]);
-        SortieDepot::create($validated);
-        return redirect()->route('sortiedepots.index')->with('success', 'Sortie ajoutée.');
+
+        SortieDepot::create($request->all());
+
+        // Recharge les données nécessaires pour la vue
+        $services = Depot::all();
+        $commandes = CmdDepot::all();
+
+        return view('chef.sortie.service', compact('services', 'commandes'))
+            ->with('success', 'Sortie dépôt créée avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(SortieDepot $sortieDepot)
     {
-        $sortie = SortieDepot::findOrFail($id);
-        return view('sortiedepots.show', compact('sortie'));
+        return view('sortie_depots.show', compact('sortieDepot'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(SortieDepot $sortieDepot)
     {
-        $sortie = SortieDepot::findOrFail($id);
-        return view('sortiedepots.edit', compact('sortie'));
+        return view('sortie_depots.edit', compact('sortieDepot'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, SortieDepot $sortieDepot)
     {
-        $validated = $request->validate([
+        $request->validate([
             'date_sortie' => 'required|date',
-            'id_depot_source' => 'required|exists:depots,id',
-            'id_depot_destinataire' => 'required|exists:depots,id',
+            'id_depot_source' => 'required|exists:depots,id_depot',
+            'id_depot_destin' => 'required|exists:depots,id_depot',
         ]);
-        $sortie = SortieDepot::findOrFail($id);
-        $sortie->update($validated);
-        return redirect()->route('sortiedepots.index')->with('success', 'Sortie mise à jour.');
+
+        $sortieDepot->update($request->all());
+
+        return redirect()->route('sortie_depots.index')->with('success', 'Sortie dépôt mise à jour avec succès.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(SortieDepot $sortieDepot)
     {
-        SortieDepot::destroy($id);
-        return redirect()->route('sortiedepots.index')->with('success', 'Sortie supprimée.');
+        $sortieDepot->delete();
+
+        return redirect()->route('sortie_depots.index')->with('success', 'Sortie dépôt supprimée avec succès.');
+    }
+
+    public function serviceRecherche(Request $request)
+    {
+        $services = Depot::all();
+        $types_commande = [
+            'bon mensuelle',
+            'bon retour',
+            'bon échange',
+            'bon décharge',
+            'bon ordonnance',
+            'bon supplémentaire'
+        ];
+
+        $commande_id = $request->input('commande_id');
+        $commandeProduits = collect();
+
+        if ($commande_id) {
+            // Charge les détails AVEC la relation produit
+            $commandeProduits = \App\Models\DetailCmd::with('produit')->where('id_cmd_sc', $commande_id)->get();
+        }
+
+        return view('chef.sortie.service', compact('services', 'types_commande', 'commandeProduits', 'commande_id'));
     }
 }

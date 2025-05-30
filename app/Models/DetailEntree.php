@@ -10,11 +10,12 @@ class DetailEntree extends Model
     use HasFactory;
 
     protected $table = 'detail_entrees';
+    protected $primaryKey = 'id'; //
 
     protected $fillable = [
-        'id_entree',
         'id_produit',
         'quantite_recue',
+        'id_entree',
     ];
 
     // Relation vers l'entrée fournisseur

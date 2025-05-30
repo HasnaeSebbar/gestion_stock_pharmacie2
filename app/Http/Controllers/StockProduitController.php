@@ -2,137 +2,89 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\StockProduit;
 use App\Models\Stock;
 use App\Models\Produit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StockProduitController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $stockProduits = StockProduit::with(['stock.depot', 'produit'])->get();
-        return view('stock_produits.index', compact('stockProduits'));
+        $stockProduits = StockProduit::with(['stock.depot', 'produit'])->paginate(20);
+        return view('stockProduits.index', compact('stockProduits'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $stocks = Stock::with('depot')->get();
         $produits = Produit::all();
-        return view('stock_produits.create', compact('stocks', 'produits'));
-   
+        return view('stockProduits.create', compact('stocks', 'produits'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'id_stock' => 'required|exists:stocks,id_stock',
             'id_produit' => 'required|exists:produits,id',
-            'quantite_initial' => 'required|integer|min:0',
-            'seuil_alerte' => 'required|integer|min:0',
-            'seuil_alerte_reactif' => 'required|integer|min:0',
+            'quantite' => 'required|integer|min:0',
+            'stock_alerte' => 'nullable|integer|min:0',
+            'stock_securite' => 'nullable|integer|min:0',
         ]);
 
-        StockProduit::create([
-            'id_stock' => $request->id_stock,
-            'id_produit' => $request->id_produit,
-            'quantite_initial' => $request->quantite_initial,
-            'seuil_alerte' => $request->seuil_alerte,
-            'seuil_alerte_reactif' => $request->seuil_alerte_reactif,
+        StockProduit::create($validated);
+
+        return redirect()->route('stockProduits.index')->with('success', 'Produit en stock ajouté avec succès.');
+    }
+
+    public function show(StockProduit $stockProduit)
+    {
+        $stockProduit->load('stock.depot', 'produit');
+        return view('stockProduits.show', compact('stockProduit'));
+    }
+
+    public function edit(StockProduit $stockProduit)
+    {
+        $stocks = Stock::with('depot')->get();
+        $produits = Produit::all();
+        return view('stockProduits.edit', compact('stockProduit', 'stocks', 'produits'));
+    }
+
+    public function update(Request $request, StockProduit $stockProduit)
+    {
+        $validated = $request->validate([
+            'id_stock' => 'required|exists:stocks,id_stock',
+            'id_produit' => 'required|exists:produits,id',
+            'quantite' => 'required|integer|min:0',
+            'stock_alerte' => 'nullable|integer|min:0',
+            'stock_securite' => 'nullable|integer|min:0',
         ]);
 
-        return redirect()->route('stock_produits.index')->with('success', 'Produit ajouté au stock avec succès.');
-   
+        $stockProduit->update($validated);
+
+        return redirect()->route('stockProduits.index')->with('success', 'Produit en stock mis à jour avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function destroy(StockProduit $stockProduit)
     {
-        // Assuming $id is the primary key of StockProduit
-        $stockProduit = StockProduit::with(['stock.depot', 'produit'])->findOrFail($id);
-
-        return view('stock_produits.show', compact('stockProduit'));
-   
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        // Assuming $id is the primary key of StockProduit
-        $stockProduit = StockProduit::findOrFail($id);
-
-        return view('stock_produits.edit', compact('stockProduit'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'quantite_initial' => 'required|integer|min:0',
-            'seuil_alerte' => 'required|integer|min:0',
-            'seuil_alerte_reactif' => 'required|integer|min:0',
-        ]);
-
-        $stockProduit = StockProduit::findOrFail($id);
-
-        $stockProduit->update([
-            'quantite_initial' => $request->quantite_initial,
-            'seuil_alerte' => $request->seuil_alerte,
-            'seuil_alerte_reactif' => $request->seuil_alerte_reactif,
-        ]);
-
-        return redirect()->route('stock_produits.index')->with('success', 'Stock mis à jour avec succès.');
-   
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id_stock
-     * @param  int  $id_produit
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id_stock, $id_produit)
-    {
-        $stockProduit = StockProduit::where('id_stock', $id_stock)
-            ->where('id_produit', $id_produit)
-            ->firstOrFail();
-
         $stockProduit->delete();
+        return redirect()->route('stockProduits.index')->with('success', 'Produit en stock supprimé avec succès.');
+    }
 
-        return redirect()->route('stock_produits.index')->with('success', 'Produit supprimé du stock.');
-   
+    public function visualiser()
+    {
+        // Adapte l'id_stock selon le dépôt/service connecté
+        $idDepot = 1; // ou Auth::user()->depot_id
+        $stock = \App\Models\Stock::where('id_depot', $idDepot)->first();
+
+        $stockProduits = [];
+        if ($stock) {
+            $stockProduits = \App\Models\StockProduit::with('produit')
+                ->where('id_stock', $stock->id_stock)
+                ->get();
+        }
+
+        return view('chef.stocks.visualiser', compact('stockProduits'));
     }
 }

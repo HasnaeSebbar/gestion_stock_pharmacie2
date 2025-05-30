@@ -98,10 +98,16 @@
 {{-- Bootstrap Icons CDN (si pas déjà inclus dans ton layout) --}}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+{{-- Bloc JSON caché pour les produits --}}
+<script id="produits-data" type="application/json">
+    {!! json_encode($produits ?? []) !!}
+</script>
+
 <script>
 let index = 1;
+let produits = JSON.parse(document.getElementById('produits-data').textContent);
+
 function ajouterProduit() {
-    let produits = @json($produits);
     let selectOptions = `<option value="">-- Choisir un produit --</option>`;
     produits.forEach(function(prod) {
         selectOptions += `<option value="${prod.id}">${prod.nom}</option>`;

@@ -5,6 +5,10 @@
         <a class="navbar-brand fw-bold fs-3 text-primary" href="{{ route('dashboard') }}" style="letter-spacing:1px;">
             PharmaGestion
         </a>
+
+        <!-- Dashboard link -->
+       
+
         <!-- User Dropdown -->
         @auth
         <div class="dropdown">

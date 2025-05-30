@@ -63,6 +63,18 @@ public function storeEntreeService(Request $request)
                     'id_produit' => $produitId,
                     'quantite_recue' => $quantite,
                 ]);
+                
+                // Met à jour ou crée le stock du produit
+                $stockProduit = \App\Models\StockProduit::where('id_produit', $produitId)->first();
+                if ($stockProduit) {
+                    $stockProduit->quantite += $quantite;
+                    $stockProduit->save();
+                } else {
+                    \App\Models\StockProduit::create([
+                        'id_produit' => $produitId,
+                        'quantite' => $quantite,
+                    ]);
+                }
             }
         }
 
@@ -99,23 +111,50 @@ public function storeEntreeService(Request $request)
         try {
             DB::beginTransaction();
 
-            $commande = CommandeFournisseur::findOrFail($request->commande_id);
-
-            $entree = EntreeFournisseur::create([
-                'commande_id' => $commande->id,
+            // 1. Créer l'entrée dans la table entrees
+            $entree = \App\Models\EntreeFournisseur::create([
+                'commande_id' => $request->commande_id,
                 'date_entree' => $request->date_entree,
-                'id_depot' => 1, // ou $commande->id_depot si tu l’as
-                'fournisseur_id' => $commande->fournisseur_id,
+                'id_depot' => 1, // adapte selon ta logique
+                'fournisseur_id' => \App\Models\CommandeFournisseur::find($request->commande_id)->fournisseur_id,
             ]);
 
-            // dd($entree);
-
+            // 2. Pour chaque produit livré
             foreach ($request->produit_id as $i => $produitId) {
-                DetailEntree::create([
+                $quantite = $request->quantite_recue[$i];
+
+                // a. Créer le détail d'entrée
+                \App\Models\DetailEntree::create([
                     'id_entree' => $entree->id_entree,
                     'id_produit' => $produitId,
-                    'quantite_recue' => $request->quantite_recue[$i],
+                    'quantite_recue' => $quantite,
                 ]);
+
+                // b. Mettre à jour ou créer la ligne dans stock_produits
+                // Récupère l'id_stock du dépôt concerné
+                $idDepot = 1; // adapte selon ta logique
+                $stock = \App\Models\Stock::where('id_depot', $idDepot)->first();
+                if (!$stock) {
+                    $stock = \App\Models\Stock::create(['id_depot' => $idDepot]);
+                }
+
+                $stockProduit = \App\Models\StockProduit::where([
+                    ['id_stock', $stock->id_stock],
+                    ['id_produit', $produitId]
+                ])->first();
+
+                if ($stockProduit) {
+                    $stockProduit->quantite_initial += $quantite;
+                    $stockProduit->save();
+                } else {
+                    \App\Models\StockProduit::create([
+                        'id_stock' => $stock->id_stock,
+                        'id_produit' => $produitId,
+                        'quantite_initial' => $quantite,
+                        'seuil_alerte' => 0, // adapte si besoin
+                        'seuil_alerte_reactif' => 0, // adapte si besoin
+                    ]);
+                }
             }
 
             DB::commit();

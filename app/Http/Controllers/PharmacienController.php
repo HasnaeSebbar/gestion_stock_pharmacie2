@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Produit;
 use App\Models\CmdDepot;
+use App\Models\CommandeDepotSc;
 use Illuminate\Http\Request;
 
 class PharmacienController extends Controller

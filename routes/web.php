@@ -33,6 +33,7 @@ use App\Http\Controllers\SortieDepotController;
 use App\Http\Controllers\DetailSortieDepotController;
 use App\Http\Controllers\SortieStockController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\StockProduitController;
 
 
 
@@ -246,6 +247,11 @@ Route::post('chef-pharmacien/sortie/patient', [SortieVersPatientController::clas
 Route::get('chef-pharmacien/sortie_vers_patients/create', [SortieVersPatientController::class, 'create'])->name('sortie_vers_patients.create');
 Route::get('chef-pharmacien/sortie_vers_patients/pdf', [SortieVersPatientController::class, 'genererPDF'])->name('sortie_vers_patients.pdf');
 
+Route::get('/alertes-stock', [App\Http\Controllers\AlerteStockController::class, 'produitsEnAlerte'])->name('alertes-stock.index');
+
+Route::get('/visualiser-stock', [App\Http\Controllers\StockController::class, 'visualiser'])->name('visualiser_stock.index');
+
+Route::get('/visualiser-stock', [StockProduitController::class, 'visualiser'])->name('visualiser_stock.index');
 });
 
 // Groupe routes majeurs
