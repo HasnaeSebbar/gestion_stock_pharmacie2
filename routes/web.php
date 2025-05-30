@@ -248,6 +248,34 @@ Route::get('chef-pharmacien/sortie_vers_patients/pdf', [SortieVersPatientControl
 
 });
 
+// Groupe routes majeurs
+Route::middleware(['auth', 'role:majeur'])->group(function () {
+    Route::get('/majeur/dashboard', function () {
+        return view('majeur.dashboard');
+    })->name('majeur.dashboard');
+
+    // Ajoute cette ligne pour la commande
+    Route::get('/majeur/commande/passer', function () {
+        // Retourne une vue ou un contrôleur pour passer une commande
+        return view('majeur.commande_passer');
+    })->name('commande.passer');
+
+    // Ajoute cette route pour l'entrée de stock
+    Route::get('/majeur/stock/entrer', function () {
+        return view('majeur.stock_entrer');
+    })->name('stock.entrer');
+
+    // Ajoute cette route pour la sortie de stock
+    Route::get('/majeur/stock/sortie', function () {
+        return view('majeur.stock_sortie');
+    })->name('stock.sortie');
+
+    // Ajoute cette route pour visualiser le stock
+    Route::get('/majeur/stock/visualiser', function () {
+        return view('majeur.stock_visualiser');
+    })->name('stock.visualiser');
+});
+
 
 
 

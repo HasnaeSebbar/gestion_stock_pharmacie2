@@ -45,12 +45,8 @@ class AuthenticatedSessionController extends Controller
                 return redirect()->route('chef.dashboard');
             case 'pharmacien':
                 return redirect()->route('pharmacien.dashboard');
-            case 'responsable de service pédiatrie':
-                return redirect()->route('pediatrie.dashboard');
-            case 'responsable de service urgences':
-                return redirect()->route('urgences.dashboard');
-            case 'responsable de service réanimation':
-                return redirect()->route('reanimation.dashboard');
+            case 'majeur':
+                return redirect()->route('majeur.dashboard');
             default:
                 Auth::logout();
                 abort(403, 'Rôle inconnu.');
@@ -62,6 +58,20 @@ class AuthenticatedSessionController extends Controller
     //     return redirect()->route('chef.dashboard');
     // } else {
     //     return redirect('/'); // Par défaut
+}
+protected function authenticated(Request $request, $user)
+{
+    if ($user->role === 'majeur') {
+        return redirect()->route('majeur.dashboard');
+    }
+    if ($user->role === 'pharmacien') {
+        return redirect()->route('pharmacien.dashboard');
+    }
+    if ($user->role === 'chef pharmacie') {
+        return redirect()->route('chef.dashboard');
+    }
+    // Par défaut
+    return redirect('/dashboard');
 }
 public function destroy(Request $request)
 {

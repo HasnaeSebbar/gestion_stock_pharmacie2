@@ -1,1 +1,0 @@
-<h1>Bienvenue sur le dashboard réanimation</h1>
