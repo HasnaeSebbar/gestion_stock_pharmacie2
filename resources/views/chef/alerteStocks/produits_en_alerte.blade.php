@@ -24,13 +24,13 @@
                                 <tr>
                                     <td class="fw-semibold">{{ $produit->nom }}</td>
                                     <td>
-                                        <span class="badge bg-{{ $produit->quantite < $produit->stock_alerte ? 'danger' : 'success' }}">
-                                            {{ $produit->quantite }}
+                                        <span class="badge bg-{{ $produit->quantite_initial < $produit->seuil_alerte ? 'danger' : 'success' }}">
+                                            {{ $produit->quantite_initial }}
                                         </span>
                                     </td>
-                                    <td>{{ $produit->stock_alerte }}</td>
+                                    <td>{{ $produit->seuil_alerte }}</td>
                                     <td>
-                                        @if($produit->quantite < $produit->stock_alerte)
+                                        @if($produit->quantite_initial < $produit->seuil_alerte)
                                             <span class="badge bg-danger"><i class="bi bi-exclamation-triangle"></i> Alerte</span>
                                         @else
                                             <span class="badge bg-success">OK</span>

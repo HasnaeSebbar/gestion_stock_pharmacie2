@@ -122,38 +122,13 @@ public function storeEntreeService(Request $request)
             // 2. Pour chaque produit livré
             foreach ($request->produit_id as $i => $produitId) {
                 $quantite = $request->quantite_recue[$i];
-
-                // a. Créer le détail d'entrée
-                \App\Models\DetailEntree::create([
-                    'id_entree' => $entree->id_entree,
-                    'id_produit' => $produitId,
-                    'quantite_recue' => $quantite,
-                ]);
-
-                // b. Mettre à jour ou créer la ligne dans stock_produits
-                // Récupère l'id_stock du dépôt concerné
-                $idDepot = 1; // adapte selon ta logique
-                $stock = \App\Models\Stock::where('id_depot', $idDepot)->first();
-                if (!$stock) {
-                    $stock = \App\Models\Stock::create(['id_depot' => $idDepot]);
-                }
-
-                $stockProduit = \App\Models\StockProduit::where([
-                    ['id_stock', $stock->id_stock],
-                    ['id_produit', $produitId]
-                ])->first();
-
-                if ($stockProduit) {
-                    $stockProduit->quantite_initial += $quantite;
-                    $stockProduit->save();
-                } else {
-                    \App\Models\StockProduit::create([
-                        'id_stock' => $stock->id_stock,
+                if ($quantite > 0) {
+                    DetailEntree::create([
+                        'id_entree' => $entree->id_entree,
                         'id_produit' => $produitId,
-                        'quantite_initial' => $quantite,
-                        'seuil_alerte' => 0, // adapte si besoin
-                        'seuil_alerte_reactif' => 0, // adapte si besoin
+                        'quantite_recue' => $quantite,
                     ]);
+                    // ... (mise à jour du stock si besoin)
                 }
             }
 

@@ -261,10 +261,7 @@ Route::middleware(['auth', 'role:majeur'])->group(function () {
     })->name('majeur.dashboard');
 
     // Ajoute cette ligne pour la commande
-    Route::get('/majeur/commande/passer', function () {
-        // Retourne une vue ou un contrôleur pour passer une commande
-        return view('majeur.commande_passer');
-    })->name('commande.passer');
+    Route::get('/majeur/commande/passer', [App\Http\Controllers\MajeurRadioController::class, 'passerCommande'])->name('commande.passer');
 
     // Ajoute cette route pour l'entrée de stock
     Route::get('/majeur/stock/entrer', function () {
@@ -280,6 +277,8 @@ Route::middleware(['auth', 'role:majeur'])->group(function () {
     Route::get('/majeur/stock/visualiser', function () {
         return view('majeur.stock_visualiser');
     })->name('stock.visualiser');
+
+    Route::post('/majeur/commande/store', [App\Http\Controllers\MajeurRadioController::class, 'storeCommande'])->name('commande.store');
 });
 
 

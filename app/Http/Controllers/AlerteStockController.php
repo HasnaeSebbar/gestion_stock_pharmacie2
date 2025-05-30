@@ -21,10 +21,10 @@ class AlerteStockController extends Controller
             ->select(
                 'depots.nom as depot_nom',
                 'produits.nom as produit_nom',
-                'stock_produits.quantite',
-                'stock_produits.stock_alerte'
+                'stock_produits.quantite_initial',
+                'stock_produits.seuil_alerte'
             )
-            ->whereColumn('stock_produits.quantite', '<', 'stock_produits.stock_alerte')
+            ->whereColumn('stock_produits.quantite_initial', '<', 'stock_produits.seuil_alerte')
             ->get();
 
         return view('chef.alerteStocks.produits_en_alerte', compact('produitsAlerte'));
