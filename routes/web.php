@@ -34,6 +34,7 @@ use App\Http\Controllers\DetailSortieDepotController;
 use App\Http\Controllers\SortieStockController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\StockProduitController;
+use App\Http\Controllers\EntreeDepotController;
 
 
 
@@ -264,9 +265,8 @@ Route::middleware(['auth', 'role:majeur'])->group(function () {
     Route::get('/majeur/commande/passer', [App\Http\Controllers\MajeurRadioController::class, 'passerCommande'])->name('commande.passer');
 
     // Ajoute cette route pour l'entrée de stock
-    Route::get('/majeur/stock/entrer', function () {
-        return view('majeur.stock_entrer');
-    })->name('stock.entrer');
+    Route::get('/majeur/stock/entrer', [EntreeDepotController::class, 'create'])->name('stock.entrer');
+    Route::post('/majeur/stock/entrer', [EntreeDepotController::class, 'store'])->name('entree_depot.store');
 
     // Ajoute cette route pour la sortie de stock
     Route::get('/majeur/stock/sortie', function () {
@@ -279,6 +279,7 @@ Route::middleware(['auth', 'role:majeur'])->group(function () {
     })->name('stock.visualiser');
 
     Route::post('/majeur/commande/store', [App\Http\Controllers\MajeurRadioController::class, 'storeCommande'])->name('commande.store');
+    Route::get('/majeur/sortie/commandes-traitees', [SortieDepotController::class, 'commandesTraitees'])->name('stock.entrer.parcommande');
 });
 
 

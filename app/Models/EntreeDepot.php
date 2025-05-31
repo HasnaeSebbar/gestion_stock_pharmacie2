@@ -11,7 +11,7 @@ use App\Models\DetailEntree;
 class EntreeDepot extends Model
 {
     use HasFactory;
-    protected $fillable = ['date_entree', 'depot_id'];
+    protected $fillable = ['id_depot','date_entree'];
 
     public function depot()
     {

@@ -39,7 +39,7 @@ class DetailEntreeDepotController extends Controller
          $validated = $request->validate([
             'entree_depot_id' => 'required|exists:entree_depots,id',
             'produit_id' => 'required|exists:produits,id',
-            'quantite' => 'required|numeric|min:1',
+            'quantite_recue' => 'required|numeric|min:1',
         ]);
 
         $detail = DetailEntreeDepot::create($validated);

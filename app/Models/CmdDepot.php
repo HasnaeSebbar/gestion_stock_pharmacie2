@@ -19,6 +19,7 @@ class CmdDepot extends Model
         'depot_dest_id',
         'date_cmd',
         'statut',
+        'type_commande',
     ];
 
     public function depotSource()
@@ -41,4 +42,8 @@ class CmdDepot extends Model
         return $this->hasMany(CmdDepotEntree::class);
     }
     
+    public function sortiesParCommande()
+    {
+        return $this->hasMany(\App\Models\SortieParCommande::class, 'id_cmd_depot');
+    }
 }

@@ -104,4 +104,19 @@ class SortieDepotController extends Controller
 
         return view('chef.sortie.service', compact('services', 'types_commande', 'commandeProduits', 'commande_id'));
     }
+
+    public function commandesTraitees()
+    {
+        // Récupère toutes les sorties liées à une commande traitée par la pharmacie
+        $sorties = \App\Models\SortieDepot::with([
+            'depotSource',
+            'depotDestination',
+            'details.produit',
+            'sortieParCommande.cmdDepot'
+        ])
+        ->whereHas('sortieParCommande') // n'affiche que les sorties liées à une commande
+        ->get();
+
+        return view('majeur.commandes_traitees', compact('sorties'));
+    }
 }
