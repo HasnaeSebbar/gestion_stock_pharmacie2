@@ -15,4 +15,9 @@ class EntreeDepot extends Model
     {
         return $this->hasMany(DetailEntreeDepot::class, 'entree_depot_id');
     }
+
+    public function depot()
+    {
+        return $this->belongsTo(Depot::class, 'id_depot');
+    }
 }

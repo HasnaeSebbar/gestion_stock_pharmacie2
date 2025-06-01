@@ -6,6 +6,12 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-lg-9">
+            {{-- Bouton historique des entrées --}}
+            <div class="mb-3 d-flex justify-content-end">
+                <a href="{{ route('entree_depot.historique') }}" class="btn btn-primary">
+                    <i class="bi bi-clock-history"></i> Historique des entrées
+                </a>
+            </div>
             <div class="card shadow-lg border-0">
                 <div class="card-header bg-primary text-white">
                     <h3 class="mb-0 fw-bold text-center">

@@ -51,4 +51,11 @@ class EntreeDepotController extends Controller
             return redirect()->back()->with('error', 'Erreur : ' . $e->getMessage());
         }
     }
+
+    // Historique des entrées
+    public function historique()
+    {
+        $entrees = EntreeDepot::with(['details.produit', 'depot'])->orderByDesc('date_entree')->get();
+        return view('majeur.historique_entrees', compact('entrees'));
+    }
 }

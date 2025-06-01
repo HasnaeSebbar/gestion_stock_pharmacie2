@@ -267,6 +267,7 @@ Route::middleware(['auth', 'role:majeur'])->group(function () {
     // Ajoute cette route pour l'entrée de stock
     Route::get('/majeur/stock/entrer', [EntreeDepotController::class, 'create'])->name('stock.entrer');
     Route::post('/majeur/stock/entrer', [EntreeDepotController::class, 'store'])->name('entree_depot.store');
+    Route::get('/majeur/stock/entrees/historique', [EntreeDepotController::class, 'historique'])->name('entree_depot.historique');
 
     // Ajoute cette route pour la sortie de stock
     Route::get('/majeur/stock/sortie', [SortieInterneController::class, 'create'])->name('stock.sortie');
