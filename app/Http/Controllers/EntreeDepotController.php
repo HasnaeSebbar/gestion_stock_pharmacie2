@@ -53,9 +53,13 @@ class EntreeDepotController extends Controller
     }
 
     // Historique des entrées
-    public function historique()
+    public function historique(Request $request)
     {
-        $entrees = EntreeDepot::with(['details.produit', 'depot'])->orderByDesc('date_entree')->get();
+        $query = \App\Models\EntreeDepot::with(['details.produit', 'depot'])->orderByDesc('date_entree');
+        if ($request->filled('date_entree')) {
+            $query->whereDate('date_entree', $request->date_entree);
+        }
+        $entrees = $query->get();
         return view('majeur.historique_entrees', compact('entrees'));
     }
 }
