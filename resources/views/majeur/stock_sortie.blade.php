@@ -6,8 +6,14 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-lg-9">
+            {{-- Bouton historique des sorties --}}
+            <div class="mb-3 d-flex justify-content-end">
+                <a href="{{ route('sortieinternes.historique') }}" class="btn btn-primary">
+                    <i class="bi bi-clock-history"></i> Historique des sorties
+                </a>
+            </div>
             <div class="card shadow-lg border-0">
-                <div class="card-header bg-primary text-white"> {{-- Remplace bg-danger par bg-primary --}}
+                <div class="card-header bg-primary text-white">
                     <h3 class="mb-0 fw-bold text-center">
                         <i class="bi bi-box-arrow-up"></i> Enregistrer une sortie de stock interne
                     </h3>
@@ -70,7 +76,7 @@
                         </button>
 
                         <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary px-4"> {{-- Remplace btn-danger par btn-primary --}}
+                            <button type="submit" class="btn btn-primary px-4">
                                 <i class="bi bi-check-circle"></i> Valider la sortie
                             </button>
                         </div>

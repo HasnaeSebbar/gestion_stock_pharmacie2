@@ -280,6 +280,7 @@ Route::middleware(['auth', 'role:majeur'])->group(function () {
 
     Route::post('/majeur/commande/store', [App\Http\Controllers\MajeurRadioController::class, 'storeCommande'])->name('commande.store');
     Route::get('/majeur/sortie/commandes-traitees', [SortieDepotController::class, 'commandesTraitees'])->name('stock.entrer.parcommande');
+    Route::get('/majeur/sortie/historique', [SortieInterneController::class, 'historique'])->name('sortieinternes.historique');
 });
 
 

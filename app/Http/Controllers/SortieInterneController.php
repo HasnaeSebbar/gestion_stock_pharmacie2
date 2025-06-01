@@ -134,4 +134,18 @@ class SortieInterneController extends Controller
         SortieInterne::destroy($id);
         return redirect()->route('sortieinternes.index')->with('success', 'Sortie supprimée.');
     }
+
+    /**
+     * Display the sortie interne history.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function historique()
+    {
+        $sorties = \App\Models\SortieInterne::with(['depot', 'details.produit'])
+            ->orderByDesc('date_sortie')
+            ->get();
+
+        return view('majeur.historique_sorties', compact('sorties'));
+    }
 }
