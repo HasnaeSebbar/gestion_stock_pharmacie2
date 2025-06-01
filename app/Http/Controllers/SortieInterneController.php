@@ -140,11 +140,15 @@ class SortieInterneController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function historique()
+    public function historique(Request $request)
     {
-        $sorties = \App\Models\SortieInterne::with(['depot', 'details.produit'])
-            ->orderByDesc('date_sortie')
-            ->get();
+        $query = \App\Models\SortieInterne::with(['depot', 'details.produit'])->orderByDesc('date_sortie');
+
+        if ($request->filled('date_sortie')) {
+            $query->whereDate('date_sortie', $request->date_sortie);
+        }
+
+        $sorties = $query->get();
 
         return view('majeur.historique_sorties', compact('sorties'));
     }
