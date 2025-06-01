@@ -13,19 +13,16 @@ class SortieDepot extends Model
     public $incrementing = true;
     public $keyType = 'int';
 
-    public function depotSource()
-    {
-        return $this->belongsTo(\App\Models\Depot::class, 'depot_source_id');
+    public function depotSource() {
+        return $this->belongsTo(Depot::class, 'id_depot_source', 'id_depot');
     }
 
-    public function depotDestination()
-    {
-        return $this->belongsTo(\App\Models\Depot::class, 'depot_dest_id');
+    public function depotDestination() {
+        return $this->belongsTo(Depot::class, 'id_depot_destin', 'id_depot');
     }
 
-    public function details()
-    {
-        return $this->hasMany(\App\Models\DetailSortieDepot::class, 'id_sortie_depot');
+    public function details() {
+        return $this->hasMany(DetailSortieDepot::class, 'id_sortie_depot', 'id_sortie_depot');
     }
 
     public function user()

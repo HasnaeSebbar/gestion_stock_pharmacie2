@@ -30,7 +30,7 @@
                                     <ul class="mb-0">
                                         @foreach($sortie->details as $detail)
                                             <li>
-                                                {{ $detail->produit->nom ?? '' }} : <strong>{{ $detail->quantite }}</strong>
+                                                {{ $detail->produit->nom ?? '' }} : <strong>{{ $detail->quantite ?? $detail->quantite_sortie ?? '' }}</strong>
                                             </li>
                                         @endforeach
                                     </ul>

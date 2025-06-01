@@ -6,10 +6,13 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-lg-9">
-            {{-- Bouton historique des entrées --}}
-            <div class="mb-3 d-flex justify-content-end">
+            {{-- Boutons en haut --}}
+            <div class="mb-3 d-flex justify-content-end gap-2">
                 <a href="{{ route('entree_depot.historique') }}" class="btn btn-primary">
                     <i class="bi bi-clock-history"></i> Historique des entrées
+                </a>
+                <a href="{{ route('stock.entrer.parcommande') }}" class="btn btn-success">
+                    <i class="bi bi-cart-plus"></i> Entrer en stock par commande
                 </a>
             </div>
             <div class="card shadow-lg border-0">
