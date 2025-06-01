@@ -79,7 +79,7 @@ class produitSeeder extends Seeder
                 'type' => 'dispositif médical',
                 'forme' => 'rouleau',
                 'unite' => 'rouleau',
-                'prix' => null,
+                'prix' => 4,
             ],
 
         );
@@ -99,7 +99,7 @@ class produitSeeder extends Seeder
                 'type' => 'médicament',
                 'forme' => 'ampoule',
                 'unite' => 'ampoule',
-                'prix' => null,
+                'prix' => 6,
             ],
 
         );

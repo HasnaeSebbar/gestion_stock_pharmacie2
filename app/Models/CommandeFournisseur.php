@@ -10,7 +10,7 @@ class CommandeFournisseur extends Model
 {   
     use HasFactory;
      protected $table = 'commande_fournisseurs';
-    protected $fillable = ['id_depot', 'id_fournisseur', 'date_commande', 'statut'];
+    protected $fillable = ['depot_id', 'id_fournisseur', 'date_commande', 'statut'];
 
     public function depot()
     {

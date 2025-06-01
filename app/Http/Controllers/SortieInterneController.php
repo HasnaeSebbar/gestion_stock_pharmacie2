@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SortieInterne;
+use App\Models\DetailSortieInterne;
+use App\Models\Depot;
+use App\Models\Produit;
+use Illuminate\Support\Facades\DB;
 
 class SortieInterneController extends Controller
 {
@@ -25,7 +29,9 @@ class SortieInterneController extends Controller
      */
     public function create()
     {
-       return view('sortieinternes.create');
+        $depots = Depot::all();
+        $produits = Produit::all();
+        return view('majeur.stock_sortie', compact('depots', 'produits'));
     }
 
     /**
@@ -36,15 +42,40 @@ class SortieInterneController extends Controller
      */
     public function store(Request $request)
     {
-      $validated = $request->validate([
-            'id_depot' => 'required|exists:depots,id',
+        $request->validate([
             'date_sortie' => 'required|date',
-            'destinataire' => 'required|string',
-            'type' => 'required|string',
-            'nom' => 'nullable|string',
+            'id_depot' => 'required|exists:depots,id_depot',
+            'destinataire_nom' => 'required|string',
+            'destinataire_type' => 'required|string',
+            'id_produit' => 'required|array|min:1',
+            'id_produit.*' => 'required|exists:produits,id',
+            'quantite' => 'required|array|min:1',
+            'quantite.*' => 'required|integer|min:1',
         ]);
-        SortieInterne::create($validated);
-        return redirect()->route('sortieinternes.index')->with('success', 'Sortie enregistrée.');
+
+        DB::beginTransaction();
+        try {
+            $sortie = SortieInterne::create([
+                'id_depot' => $request->id_depot,
+                'date_sortie' => $request->date_sortie,
+                'destinataire_nom' => $request->destinataire_nom,
+                'destinataire_type' => $request->destinataire_type,
+            ]);
+
+            foreach ($request->id_produit as $i => $produitId) {
+                DetailSortieInterne::create([
+                    'id_sortie_interne' => $sortie->id_sortie_interne,
+                    'id_produit' => $produitId,
+                    'quantite' => $request->quantite[$i],
+                ]);
+            }
+
+            DB::commit();
+            return redirect()->back()->with('success', 'Sortie enregistrée avec succès.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Erreur : ' . $e->getMessage());
+        }
     }
 
     /**

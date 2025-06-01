@@ -13,11 +13,11 @@ class DetailEntreeDepot extends Model
 
     public function entreeDepot()
     {
-        return $this->belongsTo(EntreeDepot::class);
+        return $this->belongsTo(EntreeDepot::class, 'entree_depot_id');
     }
 
     public function produit()
     {
-        return $this->belongsTo(Produit::class);
+        return $this->belongsTo(Produit::class, 'produit_id');
     }
 }

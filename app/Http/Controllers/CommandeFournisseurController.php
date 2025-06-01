@@ -97,7 +97,7 @@ class CommandeFournisseurController extends Controller
         $commande = CommandeFournisseur::create([
             'id_fournisseur' => $request->id_fournisseur,
             'date_commande' => $request->date_commande,
-            'id_depot' => 1, // à adapter si besoin
+            'depot_id' => 1, 
             'statut' => 'en attente', // par défaut
         ]);
 

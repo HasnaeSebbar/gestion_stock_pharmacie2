@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-Schema::create('entree_depot', function (Blueprint $table) {
-    $table->id();
-    $table->unsignedBigInteger('id_depot');
-    $table->date('date_entree');
-    $table->timestamps();
-
-    $table->foreign('id_depot')->references('id_depot')->on('depots')->onDelete('cascade');
-});
+        Schema::create('entree_depot', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('id_depot');
+            $table->date('date_entree');
+            $table->foreign('id_depot')->references('id_depot')->on('depots')->onDelete('cascade');
+        });
     }
 
     /**

@@ -1,18 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Entrer des produits au dépôt')
+@section('title', 'Entrée de stock')
 
 @section('content')
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-lg-9">
-            <div class="mb-3 d-flex justify-content-end">
-                <a href="{{ route('stock.entrer.parcommande') }}" class="btn btn-primary">
-                    <i class="bi bi-clipboard-plus"></i> Entrer en stock par commande
-                </a>
-            </div>
             <div class="card shadow-lg border-0">
-                <div class="card-header bg-success text-white">
+                <div class="card-header bg-primary text-white">
                     <h3 class="mb-0 fw-bold text-center">
                         <i class="bi bi-box-arrow-in-down"></i> Enregistrer une entrée de stock
                     </h3>
@@ -20,6 +15,9 @@
                 <div class="card-body bg-light">
                     @if(session('success'))
                         <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
+                    @if(session('error'))
+                        <div class="alert alert-danger">{{ session('error') }}</div>
                     @endif
                     <form action="{{ route('entree_depot.store') }}" method="POST" id="entreeDepotForm">
                         @csrf
@@ -34,7 +32,7 @@
                                 <select name="depot_id" id="depot_id" class="form-select" required>
                                     <option value="">Sélectionner un dépôt</option>
                                     @foreach($depots as $depot)
-                                        <option value="{{ $depot->id }}">{{ $depot->nom }}</option>
+                                        <option value="{{ $depot->id_depot }}">{{ $depot->nom }}</option>
                                     @endforeach
                                 </select>
                             </div>
